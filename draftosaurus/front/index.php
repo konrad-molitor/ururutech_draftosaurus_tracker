@@ -9,8 +9,8 @@ $email = $_COOKIE['user'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Draftosaurus Tracker</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <script src="../js/index.js" defer></script>
+    <link rel="stylesheet" href="../css/style.css?v=1.1">
+    <script src="../js/index.js?v=1.1" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -297,7 +297,74 @@ $email = $_COOKIE['user'];
             </section>
 
             <!--Section Play-->
-            <section id="play" class="section screen">      
+            <section id="play" class="section screen">
+                <!-- Главное меню игры / Menú principal del juego -->
+                <button class="button" onclick="showScreen('new-game')">Juego Nuevo</button>
+                <button class="button" onclick="showScreen('saved-game')">Juego Guardado</button>
+                <button class="button" onclick="showScreen('home')">Salir</button>
+                
+            </section>
+
+            <!--Section New Game-->
+            <section id="new-game" class="section screen">
+                <div class="rules-subsection-dark">
+                    <div class="subsection-column players-modo-tracking">
+                        <h2 class="tracking-section-h2">Configuración de nueva partida</h2>
+                        
+                        <!-- Player Addition Section -->
+                        <div class="player-addition">
+                            <h3>Añadir jugadores (2-5 jugadores):</h3>
+                            <div class="add-player-form">
+                                <input type="email" id="player-email" placeholder="Email del jugador" maxlength="100">
+                                <button class="button" onclick="addPlayer()">Añadir</button>
+                            </div>
+                            <div id="player-count" class="player-count">Jugadores añadidos: 0/5</div>
+                        </div>
+
+                        <!-- Players List Section -->
+                        <div class="players-list" id="players-list">
+                            <h3>Jugadores en la partida:</h3>
+                            <div id="players-container" class="players-container">
+                                <!-- Players will be added here dynamically -->
+                            </div>
+                        </div>
+
+                        <!-- Mode Selection (hidden initially) -->
+                        <div class="mode-selection" id="new-game-mode-selection" style="display: none;">
+                            <h3>Seleccione el modo de tablero:</h3>
+                            <div class="mode-buttons">
+                                <div class="icon-wrapper" onclick="selectGameMode('verano')">
+                                    <div class="icon-img icon-summer-button"></div>
+                                    <div>Verano</div>
+                                </div>
+                                <div class="icon-wrapper">
+                                    <div class="icon-img icon-winter-button"></div>
+                                    <div>Invierno</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="button" onclick="showScreen('play')">Cancelar</button>
+            </section>
+
+            <!--Section Saved Game-->
+            <section id="saved-game" class="section screen">
+                <div class="rules-subsection-dark">
+                    <div class="subsection-column players-modo-tracking">
+                        <h2 class="tracking-section-h2">Juegos Guardados</h2>
+                        
+                        <div class="saved-games-container">
+                            <p style="color: white; text-align: center; padding: 50px;">
+                                Funcionalidad en desarrollo.<br>
+                                Pronto podrás guardar y cargar tus partidas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="button" onclick="showScreen('play')">Volver</button>
             </section>
 
             <!--Section Account-->

@@ -107,12 +107,21 @@ nav {
     margin-top: 50vh;
 }
 
-#rules, #tracking, #account {
+#rules, #tracking, #account, #play, #new-game, #saved-game {
     width: 100vw;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
+}
+
+#new-game {
+    justify-content: flex-start;
+    padding: 20px 0;
+}
+
+#new-game .button {
+    align-self: center;
 }
 
 #board {
@@ -316,7 +325,7 @@ button:hover {
 }
 
 .button {
-    width: 25vw;
+    width: 40vw;
     padding: 10px;
     background-color: rgba(0, 128, 128, 0.6);
     border: none;
@@ -481,6 +490,38 @@ text-shadow: none;
 .rules-section h3, .players-modo-tracking h2, .players-modo-tracking h3, .results-section h2, .registration h2, .message h2, .login h2, .profile h2, .result h2 {
     color: black;
     text-shadow: none;
+}
+
+/* Стили для секции игры / Estilos para la sección de juego */
+.play-subsection {
+    border: 6px solid mediumseagreen;
+    border-radius: 15%;
+    color: black;
+    background-color: antiquewhite;
+    padding: 30px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.play-subsection h2 {
+    color: black;
+    text-shadow: none;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.play-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.play-options .button {
+    padding: 15px 25px;
+    font-size: 16px;
 }
 
 .text {
@@ -1047,7 +1088,7 @@ li {
 }
 
 /*Styles for user_profile*/
-#play, .account-subsection-row {
+.account-subsection-row {
     width: 100vw;
     display: flex;
     flex-direction: row;
@@ -1107,5 +1148,184 @@ a:hover {
 
 .profile a {
     margin-top: 10px;
+}
+
+/* Styles for New Game Player Management */
+.player-addition {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 2px solid mediumseagreen;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.add-player-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: nowrap;
+}
+
+.add-player-form input[type="email"] {
+    max-width: 300px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.add-player-form input[type="email"]:focus {
+    outline: none;
+    border-color: mediumseagreen;
+    box-shadow: 0 0 5px rgba(60, 179, 113, 0.3);
+}
+
+.add-player-form .button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    width: auto;
+    margin: 0;
+    padding: 10px 16px;
+    height: auto;
+}
+
+.player-count {
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.players-list {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 2px solid mediumseagreen;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.players-container {
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: white;
+}
+
+.player-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.player-item:hover {
+    background-color: #f0f0f0;
+}
+
+.player-item:last-child {
+    margin-bottom: 0;
+}
+
+.player-email {
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+}
+
+.remove-player-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s ease;
+}
+
+.remove-player-btn:hover {
+    background-color: #c82333;
+}
+
+.mode-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.mode-buttons .icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.mode-buttons .icon-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.mode-buttons .icon-wrapper div:last-child {
+    color: black;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+/* Responsive design for new game section */
+@media (max-width: 480px) {
+    .add-player-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .add-player-form input[type="email"] {
+        min-width: auto;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .add-player-form .button {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .mode-buttons {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-addition, .players-list {
+        padding: 10px;
+    }
+    
+    .players-container {
+        max-height: 200px;
+    }
+    
+    .player-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .remove-player-btn {
+        align-self: flex-end;
+    }
 }
 

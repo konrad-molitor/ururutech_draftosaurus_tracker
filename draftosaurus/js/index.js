@@ -1,10 +1,13 @@
 
 // cambiar la pantalla
 function showScreen(screenId) {
+  console.log('Switching to screen:', screenId); //Debug
   document.querySelectorAll('.screen').forEach(screen => {
     screen.classList.remove('active');
+    console.log('Removed active from:', screen.id); // Debug
   });
   document.getElementById(screenId).classList.add('active');
+  console.log('Added active to:', screenId); // Debug
 }
 
 
@@ -94,7 +97,7 @@ function validateLove(dropZone) {
     return true;
 }
 
-// Функция проверки правил для field-king / Función de validación de reglas para field-king
+// Функция проверки правил для field-king / Función de validación de reglas для field-king
 function validateKing(dropZone) {
     const existingDinos = dropZone.querySelectorAll('.dino');
     
@@ -194,8 +197,6 @@ function validateDrop(dropZone, draggedElement) {
     } else if (dropZone.classList.contains('field-one')) {
         return validateOne(dropZone);
     }
-    
-    // Для других полей (река) пока ограничений нет / Para otros campos (río) no hay limitaciones por ahora
     return true;
 }
 
@@ -604,14 +605,12 @@ function finishGame() {
     if (resultElement) {
         resultElement.innerHTML = detailedResults;
     }
-    
-    // Переходим к экрану результатов / Vamos a la pantalla de resultados
     showScreen('results');
 }
 
 // Carousel functionality
 let currentSlideIndex = 0;
-const totalSlides = 8; // Обновите это число в зависимости от количества страниц / Actualice este número según la cantidad de páginas
+const totalSlides = 8;
 
 function showSlide(index) {
     const slides = document.querySelectorAll('.carousel-slide');
@@ -668,6 +667,15 @@ function handleCarouselKeyboard(event) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM Content Loaded'); // Отладка / Debug
+    
+    // Проверяем состояние всех секций при загрузке / Verificamos el estado de todas las secciones al cargar
+    document.querySelectorAll('.screen').forEach(screen => {
+        const isActive = screen.classList.contains('active');
+        const computedStyle = window.getComputedStyle(screen);
+        console.log(`Screen ${screen.id}: active=${isActive}, display=${computedStyle.display}`);
+    });
+    
     showScreen('home');
     
     // Инициализация карусели / Inicialización del carrusel
@@ -688,5 +696,204 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Добавляем поддержку клавиатуры / Agregamos soporte de teclado
     document.addEventListener('keydown', handleCarouselKeyboard);
+    
+    // Настраиваем обработчик для email input / Configuramos manejador para email input
+    setupEmailInputHandler();
 });
+
+// Новые функции для управления игроками / Nuevas funciones para gestión de jugadores
+
+// Массив для хранения добавленных игроков / Array para almacenar jugadores añadidos
+let gamePlayers = [];
+
+// Функция для добавления игрока / Función para añadir jugador
+async function addPlayer() {
+    const emailInput = document.getElementById('player-email');
+    const email = emailInput.value.trim();
+    
+    // Валидация email / Validación de email
+    if (!email) {
+        alert('Por favor, ingrese un email');
+        return;
+    }
+    
+    if (!isValidEmail(email)) {
+        alert('Por favor, ingrese un email válido');
+        return;
+    }
+    
+    // Проверяем, не добавлен ли уже этот игрок / Verificamos si el jugador ya está añadido
+    if (gamePlayers.some(player => player.email === email)) {
+        alert('Este jugador ya está añadido a la partida');
+        return;
+    }
+    
+    // Проверяем лимит на количество игроков / Verificamos el límite de jugadores
+    if (gamePlayers.length >= 5) {
+        alert('No se pueden añadir más de 5 jugadores');
+        return;
+    }
+    
+    try {
+        // Проверяем существование пользователя в базе данных / Verificamos la existencia del usuario en la base de datos
+        const response = await fetch('../back/check_user.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `email=${encodeURIComponent(email)}`
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Добавляем игрока в массив / Añadimos el jugador al array
+            gamePlayers.push({
+                name: data.user.name,
+                email: data.user.email,
+                id: data.user.id,
+            });
+            
+            // Очищаем поле ввода / Limpiamos el campo de entrada
+            emailInput.value = '';
+            
+            // Обновляем интерфейс / Actualizamos la interfaz
+            updatePlayersDisplay();
+            
+        } else {
+            alert(data.message || 'Usuario no encontrado. El jugador debe estar registrado en el sistema.');
+        }
+        
+    } catch (error) {
+        console.error('Error al verificar usuario:', error);
+        alert('Error al verificar el usuario. Por favor, intente nuevamente.');
+    }
+}
+
+// Функция для удаления игрока / Función para eliminar jugador
+function removePlayer(email) {
+    const index = gamePlayers.findIndex(player => player.email === email);
+    if (index > -1) {
+        gamePlayers.splice(index, 1);
+        updatePlayersDisplay();
+    }
+}
+
+// Функция для обновления отображения списка игроков / Función para actualizar visualización de lista de jugadores
+function updatePlayersDisplay() {
+    const playersContainer = document.getElementById('players-container');
+    const playerCount = document.getElementById('player-count');
+    const modeSelection = document.getElementById('new-game-mode-selection');
+    
+    // Обновляем счетчик игроков / Actualizamos el contador de jugadores
+    playerCount.textContent = `Jugadores añadidos: ${gamePlayers.length}/5`;
+    
+    // Очищаем контейнер / Limpiamos el contenedor
+    playersContainer.innerHTML = '';
+    
+    if (gamePlayers.length === 0) {
+        playersContainer.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No hay jugadores añadidos</div>';
+        modeSelection.style.display = 'none';
+    } else {
+        // Добавляем каждого игрока в список / Añadimos cada jugador a la lista
+        gamePlayers.forEach(player => {
+            const playerItem = document.createElement('div');
+            playerItem.className = 'player-item';
+            playerItem.innerHTML = `
+                <span class="player-email">${player.name} (${player.email})</span>
+                <button class="remove-player-btn" onclick="removePlayer('${player.email}')">Eliminar</button>
+            `;
+            playersContainer.appendChild(playerItem);
+        });
+        
+        // Показываем выбор режима, если достаточно игроков / Mostramos selección de modo si hay suficientes jugadores
+        if (gamePlayers.length >= 2) {
+            modeSelection.style.display = 'block';
+        } else {
+            modeSelection.style.display = 'none';
+        }
+    }
+}
+
+// Функция валидации email / Función de validación de email
+function isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+// Функция для выбора режима игры / Función para selección de modo de juego
+function selectGameMode(selectedMode) {
+    if (gamePlayers.length < 2) {
+        alert('Necesitas al menos 2 jugadores para comenzar la partida');
+        return;
+    }
+    
+    if (gamePlayers.length > 5) {
+        alert('No puedes tener más de 5 jugadores');
+        return;
+    }
+
+    // собираем query-параметры jugadores=1,2,3... и modo=verano|invierno
+    // переадресуем на front/game.php?query
+    const jugadoresList = gamePlayers.map((jugador) => jugador.id).join(',');
+    const params = new URLSearchParams({ jugadores: jugadoresList, modo: selectedMode });
+    // Используем относительный путь от текущей страницы (front/index.php) к front/game.php
+    window.location.href = `game.php?${params.toString()}`;
+}
+
+// Функция для сброса данных новой игры / Función para resetear datos de nueva partida
+function resetNewGameData() {
+    gamePlayers = [];
+    const emailInput = document.getElementById('player-email');
+    if (emailInput) {
+        emailInput.value = '';
+    }
+    updatePlayersDisplay();
+}
+
+// Функция для добавления обработчика Enter в поле email / Función para agregar manejador Enter en campo email
+function setupEmailInputHandler() {
+    const emailInput = document.getElementById('player-email');
+    if (emailInput) {
+        emailInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addPlayer();
+            }
+        });
+    }
+}
+
+// Модифицируем функцию showScreen для сброса данных / Modificamos función showScreen para resetear datos
+function showScreenWithGameManagement(screenId) {
+    // Если переходим из new-game в другой экран, сбрасываем данные / Si salimos de new-game, reseteamos datos
+    const currentScreen = document.querySelector('.screen.active');
+    if (currentScreen && currentScreen.id === 'new-game' && screenId !== 'new-game') {
+        const shouldReset = confirm('¿Estás seguro de que quieres salir? Se perderá la configuración de la partida.');
+        if (shouldReset) {
+            resetNewGameData();
+        } else {
+            return; // No переходим, если пользователь отменил / No cambiamos si el usuario canceló
+        }
+    }
+    
+    // Если переходим в new-game, сбрасываем данные / Si entramos a new-game, reseteamos datos
+    if (screenId === 'new-game') {
+        setTimeout(() => {
+            resetNewGameData();
+            setupEmailInputHandler();
+        }, 100);
+    }
+    
+    // Вызываем оригинальную логику переключения экранов / Llamamos lógica original de cambio de pantallas
+    console.log('Switching to screen:', screenId); // Debug
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+        console.log('Removed active from:', screen.id); // Debug
+    });
+    document.getElementById(screenId).classList.add('active');
+    console.log('Added active to:', screenId); // Debug
+}
+
+// Переопределяем глобальную функцию / Redefinimos función global
+showScreen = showScreenWithGameManagement;
 
