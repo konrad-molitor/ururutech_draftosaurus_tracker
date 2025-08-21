@@ -1,0 +1,28 @@
+/* Estilos específicos para front/game.php */
+
+/* Panel de información del juego */
+.game-info {
+    max-width: 350px;
+    min-width: 280px;
+}
+
+/* Bloque para mostrar el dado (icono + layout) */
+.dice-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+#dice-icon {
+    border: 1px solid black;
+}
+
+/* Clases lógicas para validación del dado (sin estilo visual obligatorio) */
+.taiga {}
+.pampa {}
+.cafe-side {}
+.wc-side {}
+
+
