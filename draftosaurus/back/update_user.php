@@ -1,4 +1,5 @@
 <?php
+session_start();
 $servername = "localhost";
 $username = "root"; // Usuario por defecto de XAMPP
 $db_password = ""; // Contraseña vacía por defecto
@@ -34,6 +35,10 @@ try {
     $updateStmt = $conn->prepare($updateSql);
     $updateStmt->bind_param('ss', $name, $user['email']);
     $updateStmt->execute();
+    // Sincronizar el nombre en la sesión
+    if (isset($_SESSION['user'])) {
+        $_SESSION['user']['name'] = $name;
+    }
     header("Location: ../front/index.php"); // Redirigir a página principal
 
 } catch (Exception $e) {

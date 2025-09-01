@@ -7,15 +7,15 @@ $db_password = "";
 $dbname = "DRAFTOSAURUS";
 
 try {
-    // Создаем соединение
+    // Crear conexión
     $conn = new mysqli($servername, $username, $db_password, $dbname);
 
-    // Проверяем соединение
+    // Verificar conexión
     if ($conn->connect_error) {
         throw new Exception("Conexión fallida: " . $conn->connect_error);
     }
 
-    // Получаем email из POST запроса
+    // Obtener email desde POST
     $email = $_POST['email'] ?? '';
 
     if (empty($email)) {
@@ -23,7 +23,7 @@ try {
         exit();
     }
 
-    // Проверяем существование пользователя
+    // Verificar existencia de usuario
     $sql = "SELECT name, email, id FROM USERS WHERE email = ?";
     $stmt = $conn->prepare($sql);
     
