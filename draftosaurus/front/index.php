@@ -1,6 +1,9 @@
 <?php
-$action = $_GET['action'];
-$email = $_COOKIE['user'];
+session_start();
+$action = $_GET['action'] ?? '';
+$sessionUser = $_SESSION['user'] ?? null;
+$email = $sessionUser['email'] ?? '';
+$userRole = strtolower(trim($sessionUser['role'] ?? 'player'));
 ?>
 
 <!DOCTYPE html>
@@ -11,6 +14,7 @@ $email = $_COOKIE['user'];
     <title>Draftosaurus Tracker</title>
     <link rel="stylesheet" href="../css/style.css?v=1.1">
     <script src="../js/index.js?v=1.1" defer></script>
+    <script src="../js/admin.js?v=1.0" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -373,36 +377,13 @@ $email = $_COOKIE['user'];
                     <!--Section User Profile-->
                     <?php if ($email){ ?>
                         <?php
-                            $servername = "localhost";
-                            $username = "root"; // Usuario por defecto de XAMPP
-                            $db_password = ""; // Contraseña vacía por defecto
-                            $dbname = "DRAFTOSAURUS";
-
-                            // Crear conexión
-                            $conn = new mysqli($servername, $username, $db_password, $dbname);
-
-                            // Verificar conexión
-                            if ($conn->connect_error) {
-                                die("Conexión fallida: " . $conn->connect_error);
+                            // Obtener datos del usuario de seccion
+                            $user = $sessionUser;
+                            $userId = $user['id'] ?? null;
+                            if (!$userId) {
+                                header("Location: ../front/rechazo.php"); // Redirigir a página de rechazo
                             }
-                            try {
-                                $sql = 'SELECT id, name, birthday, email FROM USERS WHERE email = ?';
-                                $stmt = $conn->prepare($sql);
-                                $stmt->bind_param("s", $email);
-                                $stmt->execute();
-                                $result = $stmt->get_result();
-                                
-                                if ($result->num_rows < 1) {
-                                    header("Location: ../front/rechazo.php"); // Redirigir a página de rechazo
-                                }
-
-                                $user = $result->fetch_assoc();
-                                $userId = $user['id'];
-                                } catch (Exception $e) {
-                                $error_msg = print_r($e, true);
-                                error_log("../front/index.php: $error_msg");
-                            }
-                            ?>
+                        ?>
                             <script>
                                 if (<?php echo $action == 'profile' ? 'true' : 'false' ?>) {
                                         window.addEventListener('DOMContentLoaded', () => {
@@ -410,6 +391,7 @@ $email = $_COOKIE['user'];
                                     })
                                 }    
                             </script>
+                            <?php if ($userRole !== 'admin') { ?>
                             <div class="profile">
                                 <h2>¡Bienvenido/a, <?php echo $user['name'] ?>!</h2> 
                                 
@@ -425,7 +407,8 @@ $email = $_COOKIE['user'];
                                 
                                     <button class="button submit" type="submit">Actualizar</button>
                                 </form>
-                                <a class="button" onclick="">Eliminar cuenta</a>
+                                <form id="delete-account-form" action="../back/delete_user.php" method="POST" style="display:none;"></form>
+                                <a class="button" onclick="(function(){ if (confirm('¿Seguro que deseas eliminar tu cuenta? Esta acción es irreversible.')) { document.getElementById('delete-account-form').submit(); } })()">Eliminar cuenta</a>
                                 <a class="button" href="../back/logout.php">Cerrar sessión</a>
                             </div>
                             <div class="result">
@@ -435,6 +418,31 @@ $email = $_COOKIE['user'];
                                     No hay resultados
                                 </div>
                             </div>
+                            <?php } ?>
+                            
+                            <?php if ($userRole === 'admin') { ?>
+                                <div class="admin-row">
+                                <div class="rules-section admin-card">
+                                    <h3>Administración de usuarios</h3>
+                                    <!-- Formulario de admin para usuarios de BD -->
+                                    <form id="admin-create-user" onsubmit="return false;" style="margin-bottom: 10px;">
+                                        <input type="text" name="name" placeholder="Nombre" required>
+                                        <input type="date" name="birthday" placeholder="Fecha de Nacimiento">
+                                        <input type="email" name="email" placeholder="Email" required>
+                                        <input type="password" name="password" placeholder="Password" required>
+                                        <button class="button" onclick="adminCreateUser()">Crear</button>
+                                    </form>
+                                    <div id="admin-users-list">Cargando usuarios...</div>
+                                </div>
+                                <div class="rules-section admin-card">
+                                    <h3>Administración de partidas</h3>
+                                    <!-- Formulario de admin para partidas de BD -->
+                                    <div id="admin-games-list">Cargando partidas...</div>
+                                </div>
+                                </div>
+                                <a class="button admin-logout" href="../back/logout.php">Cerrar sessión</a>
+                            <?php } ?>
+                            
                     <!--Section Registracion-->
                     <?php } else { ?>
                         <div class="registration">
@@ -470,7 +478,9 @@ $email = $_COOKIE['user'];
                         </div>
                     <?php } ?>
                 </div>   
+                <?php if ($userRole !== 'admin') { ?>
                 <button class="button" onclick="showScreen('home')">Salir</button>
+                <?php } ?>
             </section>
             
         </main>

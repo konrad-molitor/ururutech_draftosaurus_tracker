@@ -1102,6 +1102,92 @@ li {
     max-width: 350px;
 }
 
+/* Admin layout */
+.admin-row {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.admin-card {
+    padding: 15px;
+    flex: 1 1 48%;
+    min-width: 320px;
+    max-width: 100%;
+    overflow-x: auto; /* безопасный скролл таблицы */
+}
+
+@media (max-width: 900px) {
+    .admin-card { min-width: 320px; flex: 1 1 100%; }
+}
+
+@media (max-width: 320px) {
+    .admin-card { min-width: 100%; }
+}
+
+/* Внутренности админ-карточек */
+.admin-card .button {
+    width: auto;
+    max-width: 100%;
+}
+
+.admin-card table {
+    width: 100%;
+    table-layout: auto; /* авто-раскладка, чтоб узкие колонки сжимались по содержимому */
+    border-collapse: collapse;
+}
+
+.admin-card th,
+.admin-card td {
+    word-break: break-word;
+    padding: 4px;
+}
+
+/* Сжать колонку ID по содержимому */
+.admin-users-table .col-id {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.admin-users-controls {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.admin-user-search {
+    max-width: 320px;
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.admin-card td input[type="text"],
+.admin-card td input[type="date"],
+.admin-card td input[type="email"],
+.admin-card td input[type="password"] {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Одинаковый размер кнопок в таблице админ-пользователей */
+.admin-users-table .button {
+    width: 120px;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.admin-logout {
+    margin-top: 15px;
+}
+
 .registration, .profile, .result {
     margin-top: 10px;
 }
