@@ -1,0 +1,119 @@
+CREATE DATABASE IF NOT EXISTS DRAFTOSAURUS;
+USE DRAFTOSAURUS;
+CREATE TABLE IF NOT EXISTS USERS (
+    ID_Users INT AUTO_INCREMENT NOT NULL ,
+    Name VARCHAR(50) NOT NULL,
+    birthday DATE,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'player') NOT NULL DEFAULT 'player',
+    primary key (ID_Users)
+    );
+
+CREATE TABLE PARTIDA (
+  ID_Partida int NOT NULL AUTO_INCREMENT,
+  Estado enum('En curso','Finalizada') NOT NULL,
+  Modo enum ('Verano','Invierno'),
+  Fecha date NOT NULL,
+  PRIMARY KEY (ID_Partida)
+) 
+
+CREATE TABLE partidaUsers (
+  ID_Partida int NOT NULL ,
+  Fecha date NOT NULL,
+  ID_Users INT NOT NULL,
+  Cantidad_Jugadores enum('1','2','3','4','5'),
+  Puntajefinal int NOT NULL default '0',
+  PRIMARY KEY (ID_Partida,ID_Users)
+  
+);
+
+CREATE TABLE RONDA (
+ID_Ronda int NOT NULL AUTO_INCREMENT,
+N_Ronda enum ('1','2'),
+ID_Partida int NOT NULL,
+foreign key (ID_Partida) references PARTIDA (ID_Partida),
+primary key (ID_Ronda)
+);
+ 
+ CREATE TABLE TURNO (
+ ID_Turno int NOT NULL AUTO_INCREMENT,
+ N_Turno enum('1','2','3','4','5','6'),
+ ID_Users INT NOT NULL ,
+ ID_Partida int NOT NULL,
+ ID_Ronda int NOT NULL ,
+ ID_Recinto int  NOT NULL ,
+ foreign key (ID_Users) references USERS (ID_Users),
+ foreign key (ID_Partida) references PARTIDA (ID_Partida),
+ foreign key (ID_Ronda) references RONDA (ID_Ronda),
+ foreign key (ID_Recinto) references RECINTO (ID_Recinto),
+ Primary key (ID_Turno)
+ );
+
+CREATE TABLE DADO(
+ID_Dado int NOT NULL AUTO_INCREMENT,
+Cara_Dado enum('1','2','3','4','5','6'),
+ID_Turno int NOT NULL ,
+foreign key (ID_Turno) references TURNO (ID_Turno),
+PRIMARY KEY (ID_Dado)
+);
+
+CREATE TABLE MANO (
+ID_Mano int NOT NULL AUTO_INCREMENT,
+ManoDino json,
+ID_Users INT NOT NULL,
+ID_Turno int NOT NULL,
+ID_Ronda int NOT NULL,
+foreign key (ID_Users) references USERS (ID_Users),
+foreign key(ID_Turno)references Turno (ID_Turno),
+foreign key (ID_Ronda) references RONDA (ID_Ronda),
+primary key (ID_Mano)
+);
+
+CREATE TABLE TABLERO (
+ID_Tablero int NOT NUll AUTO_INCREMENT,
+ID_Users INT NOT NULL ,
+ID_Turno int NOT NULL,
+ID_Partida int NOT NULL,
+foreign key (ID_Users) references USERS (ID_Users),
+foreign key (ID_Turno) references TURNO (ID_Turno),
+foreign key (ID_Partida) references PARTIDA (ID_Partida),
+primary key(ID_Tablero)
+);
+
+CREATE TABLE RECINTO (
+ID_Recinto int  NOT NULL AUTO_INCREMENT,
+Recinto enum('river','one','diversity','king','love','three','equality'),
+ID_Tablero int NOT NUll,
+ID_Partida int NOT NULL,
+foreign key (ID_Partida) references PARTIDA (ID_Partida),
+foreign key (ID_Tablero) references TABLERO (ID_Tablero),
+primary key (ID_Recinto)
+);
+
+CREATE TABLE DINO(
+ID_DINO INT NOT NULL AUTO_INCREMENT,
+Espdino enum('tRex','spinosaurus','iguanodon','triceratops','brontosaurus','stegosaurus'),
+Cantidad_Dino int NOT NULL,
+ID_Mano int NOT NULL ,
+foreign key (ID_Mano) references MANO (ID_Mano),
+primary key (ID_Dino)
+);
+
+CREATE TABLE RECINTO_DINO (
+ID_DINO INT NOT NULL,
+ID_Recinto int NOT NULL,
+ID_Turno int NOT NULL,
+primary key (ID_Dino),
+primary key (ID_Recinto),
+primary key (ID_Turno)
+);
+
+CREATE TABLE MANO_RONDA(
+ID_Mano int NOT NULL,
+ID_Ronda int NOT NULL,
+primary key (ID_Mano),
+primary key (ID_Ronda)
+);
+
+
