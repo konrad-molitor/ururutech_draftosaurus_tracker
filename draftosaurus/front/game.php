@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Draftosaurus Tracker</title>
+    <link rel="icon" href="../assets/icons/trex.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css?v=1.1">
     <link rel="stylesheet" href="../css/game.css?v=1.1">
     <script src="../js/index.js?v=1.1" defer></script>
