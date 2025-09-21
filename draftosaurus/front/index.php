@@ -12,7 +12,9 @@ $userRole = strtolower(trim($sessionUser['role'] ?? 'player'));
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Draftosaurus Tracker</title>
+    <link rel="icon" href="../assets/icons/trex.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css?v=1.1">
+    <script src="../js/lang.js?v=1.0" defer></script>
     <script src="../js/index.js?v=1.1" defer></script>
     <script src="../js/admin.js?v=1.0" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -23,7 +25,7 @@ $userRole = strtolower(trim($sessionUser['role'] ?? 'player'));
         <!-- Main Navigation -->
         <nav>
             <h1>Draftosaurus Tracker</h1>
-            <div class="language"></div>
+            <div class="language spanish" onclick="changeLanguage()"></div>
         </nav>
 
         <main class="main">

@@ -57,7 +57,7 @@ function validateEquality(dropZone, newDinoType) {
     
     // Проверяем лимит в 6 динозавров / Verificamos el límite de 6 dinosaurios
     if (existingDinos.length >= 6) {
-        alert('En el área de Igualdad no se pueden colocar más de 6 dinosaurios');
+        alert((typeof t==='function') ? t('validation.equality.limit') : 'En el área de Igualdad no se pueden colocar más de 6 dinosaurios');
         return false;
     }
     
@@ -65,7 +65,7 @@ function validateEquality(dropZone, newDinoType) {
     if (existingDinos.length > 0) {
         const firstDinoType = getDinoType(existingDinos[0]);
         if (firstDinoType !== newDinoType) {
-            alert('En el área de Igualdad solo se pueden colocar dinosaurios del mismo tipo');
+            alert((typeof t==='function') ? t('validation.equality.mismatch') : 'En el área de Igualdad solo se pueden colocar dinosaurios del mismo tipo');
             return false;
         }
     }
@@ -78,7 +78,7 @@ function validateThree(dropZone) {
     const existingDinos = dropZone.querySelectorAll('.dino');
     
     if (existingDinos.length >= 3) {
-        alert('En el área de Tres no se pueden colocar más de 3 dinosaurios');
+        alert((typeof t==='function') ? t('validation.three.limit') : 'En el área de Tres no se pueden colocar más de 3 dinosaurios');
         return false;
     }
     
@@ -90,7 +90,7 @@ function validateLove(dropZone) {
     const existingDinos = dropZone.querySelectorAll('.dino');
     
     if (existingDinos.length >= 6) {
-        alert('En el área del Amor no se pueden colocar más de 6 dinosaurios');
+        alert((typeof t==='function') ? t('validation.love.limit') : 'En el área del Amor no se pueden colocar más de 6 dinosaurios');
         return false;
     }
     
@@ -102,7 +102,7 @@ function validateKing(dropZone) {
     const existingDinos = dropZone.querySelectorAll('.dino');
     
     if (existingDinos.length >= 1) {
-        alert('En el área del Rey solo se puede colocar 1 dinosaurio');
+        alert((typeof t==='function') ? t('validation.king.limit') : 'En el área del Rey solo se puede colocar 1 dinosaurio');
         return false;
     }
     
@@ -114,7 +114,7 @@ function validateDiversity(dropZone, newDinoType) {
     const existingDinos = dropZone.querySelectorAll('.dino');
     
     if (existingDinos.length >= 6) {
-        alert('En el área de la Diversidad no se pueden colocar más de 6 dinosaurios');
+        alert((typeof t==='function') ? t('validation.diversity.limit') : 'En el área de la Diversidad no se pueden colocar más de 6 dinosaurios');
         return false;
     }
     
@@ -122,7 +122,7 @@ function validateDiversity(dropZone, newDinoType) {
     for (let dino of existingDinos) {
         const existingType = getDinoType(dino);
         if (existingType === newDinoType) {
-            alert('En el área de la Diversidad no se pueden colocar dinosaurios del mismo tipo');
+            alert((typeof t==='function') ? t('validation.diversity.duplicate') : 'En el área de la Diversidad no se pueden colocar dinosaurios del mismo tipo');
             return false;
         }
     }
@@ -135,7 +135,7 @@ function validateOne(dropZone) {
     const existingDinos = dropZone.querySelectorAll('.dino');
     
     if (existingDinos.length >= 1) {
-        alert('En el área de Uno solo se puede colocar 1 dinosaurio');
+        alert((typeof t==='function') ? t('validation.one.limit') : 'En el área de Uno solo se puede colocar 1 dinosaurio');
         return false;
     }
     
@@ -169,7 +169,7 @@ function validateDrop(dropZone, draggedElement) {
     const dinoType = getDinoType(draggedElement);
     
     if (!dinoType) {
-        alert('Error: No se pudo identificar el tipo de dinosaurio');
+        alert((typeof t==='function') ? t('validation.error.unknownType') : 'Error: No se pudo identificar el tipo de dinosaurio');
         return false;
     }
     
@@ -178,7 +178,7 @@ function validateDrop(dropZone, draggedElement) {
     if (isFromPanel) {
         const currentTotal = getTotalDinosOnField();
         if (currentTotal >= 12) {
-            alert('No se pueden colocar más de 12 dinosaurios en el parque');
+            alert((typeof t==='function') ? t('validation.limit.total12') : 'No se pueden colocar más de 12 dinosaurios en el parque');
             return false;
         }
     }
@@ -398,7 +398,7 @@ function calculateKingPoints() {
     const dinoNameSpanish = getDinoNameInSpanish(dinoType);
     
     // Задаем вопрос игроку / Hacemos una pregunta al jugador
-    const question = `Tienes ${totalDinosOfType} ${dinoNameSpanish}. ¿Otros jugadores tienen menos? Y/N`;
+    const question = (typeof t==='function') ? t('king.prompt', { count: totalDinosOfType, dino: dinoNameSpanish }) : `Tienes ${totalDinosOfType} ${dinoNameSpanish}. ¿Otros jugadores tienen menos? Y/N`;
     const answer = prompt(question);
     
     // Обрабатываем ответ / Procesamos la respuesta
@@ -549,16 +549,16 @@ function calculateTotalScore() {
     const totalScore = equalityPoints + threePoints + lovePoints + kingPoints + diversityPoints + onePoints + riverPoints + trexBonusPoints;
     
     // Выводим детальную информацию в консоль для отладки / Mostramos información detallada en la consola para depuración
-    console.log('Puntuación detallada:');
-    console.log(`Igualdad: ${equalityPoints} puntos`);
-    console.log(`Tres: ${threePoints} puntos`);
-    console.log(`Amor: ${lovePoints} puntos`);
-    console.log(`Rey: ${kingPoints} puntos`);
-    console.log(`Diversidad: ${diversityPoints} puntos`);
-    console.log(`Uno: ${onePoints} puntos`);
-    console.log(`Río: ${riverPoints} puntos`);
-    console.log(`Bonus T-Rex: ${trexBonusPoints} puntos`);
-    console.log(`TOTAL: ${totalScore} puntos`);
+    console.log((typeof t==='function') ? t('score.console.detailed') : 'Puntuación detallada:');
+    console.log(`${(typeof t==='function') ? t('score.label.equality') : 'Igualdad'}: ${equalityPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
+    console.log(`${(typeof t==='function') ? t('score.label.three') : 'Tres'}: ${threePoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
+    console.log(`${(typeof t==='function') ? t('score.label.love') : 'Amor'}: ${lovePoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
+    console.log(`${(typeof t==='function') ? t('score.label.king') : 'Rey'}: ${kingPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
+    console.log(`${(typeof t==='function') ? t('score.label.diversity') : 'Diversidad'}: ${diversityPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
+    console.log(`${(typeof t==='function') ? t('score.label.one') : 'Uno'}: ${onePoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
+    console.log(`${(typeof t==='function') ? t('score.label.river') : 'Río'}: ${riverPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
+    console.log(`${(typeof t==='function') ? t('score.label.trexBonus') : 'Bonus T-Rex'}: ${trexBonusPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
+    console.log(`${(typeof t==='function') ? t('score.label.total') : 'TOTAL'}: ${totalScore} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}`);
     
     return totalScore;
 }
@@ -569,7 +569,7 @@ function finishGame() {
     const totalDinosOnField = getTotalDinosOnField();
     
     if (totalDinosOnField !== 12) {
-        alert(`¡Atención! Necesitas colocar exactamente 12 dinosaurios en el parque para finalizar la partida. Actualmente tienes ${totalDinosOnField} dinosaurios.`);
+        alert((typeof t==='function') ? t('validation.need12', { count: totalDinosOnField }) : `¡Atención! Necesitas colocar exactamente 12 dinosaurios en el parque para finalizar la partida. Actualmente tienes ${totalDinosOnField} dinosaurios.`);
         return; // Не продолжаем, если не 12 динозавров / No continuamos si no hay 12 dinosaurios
     }
     
@@ -585,18 +585,18 @@ function finishGame() {
     
     // Создаем детальный отчет / Creamos un informe detallado
     const detailedResults = `
-        <h2>Puntuación Final</h2>
+        <h2>${(typeof t==='function') ? t('score.finalTitle') : 'Puntuación Final'}</h2>
         <div style="text-align: left; max-width: 400px; margin: 0 auto;">
-            <p><strong>Igualdad:</strong> ${equalityPoints} puntos</p>
-            <p><strong>Tres:</strong> ${threePoints} puntos</p>
-            <p><strong>Amor:</strong> ${lovePoints} puntos</p>
-            <p><strong>Rey:</strong> ${kingPoints} puntos</p>
-            <p><strong>Diversidad:</strong> ${diversityPoints} puntos</p>
-            <p><strong>Uno:</strong> ${onePoints} puntos</p>
-            <p><strong>Río:</strong> ${riverPoints} puntos</p>
-            <p><strong>Bonus T-Rex:</strong> ${trexBonusPoints} puntos</p>
+            <p><strong>${(typeof t==='function') ? t('score.label.equality') : 'Igualdad'}:</strong> ${equalityPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</p>
+            <p><strong>${(typeof t==='function') ? t('score.label.three') : 'Tres'}:</strong> ${threePoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</p>
+            <p><strong>${(typeof t==='function') ? t('score.label.love') : 'Amor'}:</strong> ${lovePoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</p>
+            <p><strong>${(typeof t==='function') ? t('score.label.king') : 'Rey'}:</strong> ${kingPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</p>
+            <p><strong>${(typeof t==='function') ? t('score.label.diversity') : 'Diversidad'}:</strong> ${diversityPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</p>
+            <p><strong>${(typeof t==='function') ? t('score.label.one') : 'Uno'}:</strong> ${onePoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</p>
+            <p><strong>${(typeof t==='function') ? t('score.label.river') : 'Río'}:</strong> ${riverPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</p>
+            <p><strong>${(typeof t==='function') ? t('score.label.trexBonus') : 'Bonus T-Rex'}:</strong> ${trexBonusPoints} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</p>
             <hr style="margin: 15px 0; border: 1px solid #666;">
-            <p style="font-size: 1.2em;"><strong>TOTAL: ${totalScore} puntos</strong></p>
+            <p style="font-size: 1.2em;"><strong>${(typeof t==='function') ? t('score.label.total') : 'TOTAL'}: ${totalScore} ${(typeof t==='function') ? t('score.units.points') : 'puntos'}</strong></p>
         </div>
     `;
     
@@ -699,6 +699,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Настраиваем обработчик для email input / Configuramos manejador para email input
     setupEmailInputHandler();
+
+    // Aplicar idioma guardado al cargar
+    try {
+        const savedLang = localStorage.getItem('lang') || 'es';
+        applyLanguage(savedLang);
+    } catch (e) {}
 });
 
 // Новые функции для управления игроками / Nuevas funciones para gestión de jugadores
@@ -713,24 +719,24 @@ async function addPlayer() {
     
     // Валидация email / Validación de email
     if (!email) {
-        alert('Por favor, ingrese un email');
+        alert((typeof t==='function') ? t('newGame.alert.enterEmail') : 'Por favor, ingrese un email');
         return;
     }
     
     if (!isValidEmail(email)) {
-        alert('Por favor, ingrese un email válido');
+        alert((typeof t==='function') ? t('newGame.alert.validEmail') : 'Por favor, ingrese un email válido');
         return;
     }
     
     // Проверяем, не добавлен ли уже этот игрок / Verificamos si el jugador ya está añadido
     if (gamePlayers.some(player => player.email === email)) {
-        alert('Este jugador ya está añadido a la partida');
+        alert((typeof t==='function') ? t('newGame.alert.alreadyAdded') : 'Este jugador ya está añadido a la partida');
         return;
     }
     
     // Проверяем лимит на количество игроков / Verificamos el límite de jugadores
     if (gamePlayers.length >= 5) {
-        alert('No se pueden añadir más de 5 jugadores');
+        alert((typeof t==='function') ? t('newGame.alert.maxPlayers') : 'No se pueden añadir más de 5 jugadores');
         return;
     }
     
@@ -761,12 +767,12 @@ async function addPlayer() {
             updatePlayersDisplay();
             
         } else {
-            alert(data.message || 'Usuario no encontrado. El jugador debe estar registrado en el sistema.');
+            alert(data.message || ((typeof t==='function') ? t('newGame.user.notFound') : 'Usuario no encontrado. El jugador debe estar registrado en el sistema.'));
         }
         
     } catch (error) {
         console.error('Error al verificar usuario:', error);
-        alert('Error al verificar el usuario. Por favor, intente nuevamente.');
+        alert((typeof t==='function') ? t('newGame.user.verifyError') : 'Error al verificar el usuario. Por favor, intente nuevamente.');
     }
 }
 
@@ -786,22 +792,24 @@ function updatePlayersDisplay() {
     const modeSelection = document.getElementById('new-game-mode-selection');
     
     // Обновляем счетчик игроков / Actualizamos el contador de jugadores
-    playerCount.textContent = `Jugadores añadidos: ${gamePlayers.length}/5`;
+    playerCount.textContent = (typeof t === 'function') ? t('newGame.playerCount', { count: gamePlayers.length }) : `Jugadores añadidos: ${gamePlayers.length}/5`;
     
     // Очищаем контейнер / Limpiamos el contenedor
     playersContainer.innerHTML = '';
     
     if (gamePlayers.length === 0) {
-        playersContainer.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No hay jugadores añadidos</div>';
+        const noPlayersText = (typeof t === 'function') ? t('newGame.noPlayers') : 'No hay jugadores añadidos';
+        playersContainer.innerHTML = `<div style="text-align: center; color: #999; padding: 20px;">${noPlayersText}</div>`;
         modeSelection.style.display = 'none';
     } else {
         // Добавляем каждого игрока в список / Añadimos cada jugador a la lista
         gamePlayers.forEach(player => {
             const playerItem = document.createElement('div');
             playerItem.className = 'player-item';
+            const removeLabel = (typeof t === 'function') ? t('newGame.removePlayer') : 'Eliminar';
             playerItem.innerHTML = `
                 <span class="player-email">${player.name} (${player.email})</span>
-                <button class="remove-player-btn" onclick="removePlayer('${player.email}')">Eliminar</button>
+                <button class="remove-player-btn" onclick="removePlayer('${player.email}')">${removeLabel}</button>
             `;
             playersContainer.appendChild(playerItem);
         });
@@ -824,12 +832,12 @@ function isValidEmail(email) {
 // Функция для выбора режима игры / Función para selección de modo de juego
 function selectGameMode(selectedMode) {
     if (gamePlayers.length < 2) {
-        alert('Necesitas al menos 2 jugadores para comenzar la partida');
+        alert((typeof t==='function') ? t('newGame.alert.needMinPlayers') : 'Necesitas al menos 2 jugadores para comenzar la partida');
         return;
     }
     
     if (gamePlayers.length > 5) {
-        alert('No puedes tener más de 5 jugadores');
+        alert((typeof t==='function') ? t('newGame.alert.maxPlayersGame') : 'No puedes tener más de 5 jugadores');
         return;
     }
 
@@ -868,7 +876,7 @@ function showScreenWithGameManagement(screenId) {
     // Если переходим из new-game в другой экран, сбрасываем данные / Si salimos de new-game, reseteamos datos
     const currentScreen = document.querySelector('.screen.active');
     if (currentScreen && currentScreen.id === 'new-game' && screenId !== 'new-game') {
-        const shouldReset = confirm('¿Estás seguro de que quieres salir? Se perderá la configuración de la partida.');
+        const shouldReset = confirm((typeof t==='function') ? t('newGame.leave.confirm') : '¿Estás seguro de que quieres salir? Se perderá la configuración de la partida.');
         if (shouldReset) {
             resetNewGameData();
         } else {

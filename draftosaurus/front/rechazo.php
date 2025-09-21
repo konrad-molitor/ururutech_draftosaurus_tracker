@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rechazo</title>
+    <link rel="icon" href="../assets/icons/trex.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/lang.js" defer></script>
 </head>
 <body>
     <div class="container">
