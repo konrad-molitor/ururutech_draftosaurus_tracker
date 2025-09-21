@@ -7,6 +7,7 @@
     <link rel="icon" href="../assets/icons/trex.png" type="image/png">
     <link rel="stylesheet" href="../css/style.css?v=1.1">
     <link rel="stylesheet" href="../css/game.css?v=1.1">
+    <script src="../js/lang.js?v=1.0" defer></script>
     <script src="../js/index.js?v=1.1" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <?php
@@ -344,7 +345,7 @@
 
             // Validación adicional por dado
             if (!isAllowedByDice(dropZone)) {
-                alert('Colocación no permitida por el dado');
+                alert(t('game.alert.diceNotAllowed') || 'Colocación no permitida por el dado');
                 window.draggedElement = null;
                 return;
             }
@@ -543,23 +544,27 @@
 
             // Determinar la puntuación máxima
             const maxTotal = Math.max(...results.map(r => r.score.total));
-            // Logs con destacados de ganador(es) y detalles
+            // Logs con destacados de ganador(es) y detalles (localizados si es posible)
             results.forEach(({ player, score }) => {
                 const winnerMark = score.total === maxTotal ? '<< WINNER' : '';
-                console.log(`Jugador: ${player.name} (${player.email}) TOTAL=${score.total} ${winnerMark}`);
-                console.log('  Detalle:', {
-                    Igualdad: score.equalityPoints,
-                    Tres: score.threePoints,
-                    Amor: score.lovePoints,
-                    Rey: score.kingPoints,
-                    Diversidad: score.diversityPoints,
-                    Uno: score.onePoints,
-                    Río: score.riverPoints,
-                    BonusTRex: score.trexBonusPoints
-                });
+                const playerLabel = t('common.player') || 'Jugador';
+                const detail = {};
+                detail[(t('score.label.equality') || 'Igualdad')] = score.equalityPoints;
+                detail[(t('score.label.three') || 'Tres')] = score.threePoints;
+                detail[(t('score.label.love') || 'Amor')] = score.lovePoints;
+                detail[(t('score.label.king') || 'Rey')] = score.kingPoints;
+                detail[(t('score.label.diversity') || 'Diversidad')] = score.diversityPoints;
+                detail[(t('score.label.one') || 'Uno')] = score.onePoints;
+                detail[(t('score.label.river') || 'Río')] = score.riverPoints;
+                detail[(t('score.label.trexBonus') || 'Bonus T-Rex')] = score.trexBonusPoints;
+                console.log(`${playerLabel}: ${player.name} (${player.email}) TOTAL=${score.total} ${winnerMark}`);
+                console.log('  Detalle:', detail);
                 if (score.kingComparison) {
                     const typeName = getDinoNameInSpanishForScore(score.kingComparison.type);
-                    console.log(`  Rey comparativa (${typeName}): este jugador=${score.kingComparison.thisCount}, otros=`, score.kingComparison.others);
+                    const compLabel = t('score.label.king') || 'Rey';
+                    const thisLabel = t('score.king.thisPlayer') || 'este jugador';
+                    const othersLabel = t('score.king.others') || 'otros';
+                    console.log(`  ${compLabel} (${typeName}): ${thisLabel}=${score.kingComparison.thisCount}, ${othersLabel}=`, score.kingComparison.others);
                 }
             });
             console.log('Resultados finales (ordenados):', results
@@ -578,22 +583,23 @@
                 const wrapper = document.createElement('div');
                 wrapper.className = 'rules-section results-text';
                 wrapper.style.marginTop = '10px';
-                let html = '<h2 style="color:black; text-shadow:none; text-align:center;">Resultados finales</h2>';
+                let html = `<h2 style="color:black; text-shadow:none; text-align:center;">${t('game.results.h2') || 'Resultados finales'}</h2>`;
                 html += sorted.map(({ player, score }) => {
                     const isWinner = score.total === winnerTotal;
+                    const winnerLabel = (t('common.winner') || 'WINNER');
                     return `
-                        <div class=\"results-section results-text\" style=\"margin-top: 10px; ${isWinner ? 'border-color: gold;' : ''}\">
-                            <h2 style=\"color: black; text-shadow: none; text-align: center;\">${player.name} (${player.email}) ${isWinner ? '<span style=\"color: goldenrod;\">WINNER</span>' : ''}</h2>
-                            <li><b>El Bosque de la Semejanza:</b> ${score.equalityPoints} puntos</li>
-                            <li><b>El Trío Frondoso:</b> ${score.threePoints} puntos</li>
-                            <li><b>La Pradera del Amor:</b> ${score.lovePoints} puntos</li>
-                            <li><b>El Rey de la Selva:</b> ${score.kingPoints} puntos</li>
-                            <li><b>El Prado de la Diferencia:</b> ${score.diversityPoints} puntos</li>
-                            <li><b>La Isla Solitaria:</b> ${score.onePoints} puntos</li>
-                            <li><b>El Río:</b> ${score.riverPoints} puntos</li>
-                            <li><b>Bonus T-Rex:</b> ${score.trexBonusPoints} puntos</li>
+                        <div class=\"results-section results-text\" style=\"margin-top: 10px; ${isWinner ? 'border-color: gold;' : ''}\">\n
+                            <h2 style=\"color: black; text-shadow: none; text-align: center;\">${player.name} (${player.email}) ${isWinner ? '<span style=\"color: goldenrod;\">'+winnerLabel+'</span>' : ''}</h2>
+                            <li><b>${t('score.label.equality') || 'Igualdad'}:</b> ${score.equalityPoints} ${t('score.units.points') || 'puntos'}</li>
+                            <li><b>${t('score.label.three') || 'Tres'}:</b> ${score.threePoints} ${t('score.units.points') || 'puntos'}</li>
+                            <li><b>${t('score.label.love') || 'Amor'}:</b> ${score.lovePoints} ${t('score.units.points') || 'puntos'}</li>
+                            <li><b>${t('score.label.king') || 'Rey'}:</b> ${score.kingPoints} ${t('score.units.points') || 'puntos'}</li>
+                            <li><b>${t('score.label.diversity') || 'Diversidad'}:</b> ${score.diversityPoints} ${t('score.units.points') || 'puntos'}</li>
+                            <li><b>${t('score.label.one') || 'Uno'}:</b> ${score.onePoints} ${t('score.units.points') || 'puntos'}</li>
+                            <li><b>${t('score.label.river') || 'Río'}:</b> ${score.riverPoints} ${t('score.units.points') || 'puntos'}</li>
+                            <li><b>${t('score.label.trexBonus') || 'Bonus T-Rex'}:</b> ${score.trexBonusPoints} ${t('score.units.points') || 'puntos'}</li>
                             <hr style=\"margin: 10px 0; border: 1px solid #666;\">
-                            <p style=\"font-size: 1.1em; text-align: center;\"><strong>TOTAL: ${score.total} puntos</strong></p>
+                            <p style=\"font-size: 1.1em; text-align: center;\"><strong>${t('score.label.total') || 'TOTAL'}: ${score.total} ${t('score.units.points') || 'puntos'}</strong></p>
                         </div>
                     `;
                 }).join('');
@@ -604,7 +610,7 @@
                 const backBtn = document.createElement('a');
                 backBtn.href = 'index.php';
                 backBtn.className = 'button';
-                backBtn.textContent = 'Volver al inicio';
+                backBtn.textContent = t('common.backHome') || 'Volver al inicio';
                 backBtn.style.display = 'block';
                 backBtn.style.margin = '10px auto';
                 gameContent.appendChild(backBtn);
@@ -630,7 +636,7 @@
             const currentIndex = gs.jugadorActual - 1;
             const jugador = gs.jugadores[currentIndex];
             if (!jugador || !jugador.didMove) {
-                alert('Debes colocar un dinosaurio antes de finalizar el turno');
+                alert(t('game.alert.mustPlace') || 'Debes colocar un dinosaurio antes de finalizar el turno');
                 return;
             }
 
