@@ -185,6 +185,17 @@ const i18n = {
         'reject.h2': 'Error al Enviar',
         'reject.text': 'Hubo un problema. Por favor, inténtelo nuevamente.',
         'reject.back': 'Volver al inicio'
+        ,
+        // Game page
+        'game.info.h2': 'Información de Juego',
+        'game.round': 'Ronda',
+        'game.turn': 'Turno',
+        'game.currentPlayer': 'Jugador actual',
+        'game.finishTurn': 'Finalizar turno',
+        'game.alert.diceNotAllowed': 'Colocación no permitida por el dado',
+        'game.alert.mustPlace': 'Debes colocar un dinosaurio antes de finalizar el turno',
+        'game.results.h2': 'Resultados finales',
+        'common.backHome': 'Volver al inicio'
     },
     en: {
         // Home
@@ -371,6 +382,17 @@ const i18n = {
         'reject.h2': 'Submission Error',
         'reject.text': 'There was a problem. Please try again.',
         'reject.back': 'Back to home'
+        ,
+        // Game page
+        'game.info.h2': 'Game Info',
+        'game.round': 'Round',
+        'game.turn': 'Turn',
+        'game.currentPlayer': 'Current player',
+        'game.finishTurn': 'End turn',
+        'game.alert.diceNotAllowed': 'Placement not allowed by the die',
+        'game.alert.mustPlace': 'You must place a dinosaur before ending the turn',
+        'game.results.h2': 'Final results',
+        'common.backHome': 'Back to home'
     }
 };
 
@@ -557,6 +579,38 @@ function applyLanguage(lang) {
         setHTML(resultsLis[6], t('results.river'));
         setHTML(resultsLis[7], t('results.trex'));
     }
+    // If dynamic results (p rows) were rendered, localize them too
+    const dynResultsContainer = document.querySelector('#results .results-section');
+    if (dynResultsContainer) {
+        const pRows = dynResultsContainer.querySelectorAll('div > p');
+        if (pRows && pRows.length >= 8) {
+            const keys = [
+                'score.label.equality',
+                'score.label.three',
+                'score.label.love',
+                'score.label.king',
+                'score.label.diversity',
+                'score.label.one',
+                'score.label.river',
+                'score.label.trexBonus'
+            ];
+            pRows.forEach(function(p, idx){
+                if (idx < keys.length) {
+                    const numMatch = (p.textContent || '').match(/(\d+)/);
+                    const val = numMatch ? numMatch[1] : '';
+                    setHTML(p, `<strong>${t(keys[idx])}:</strong> ${val} ${t('score.units.points')}`);
+                }
+            });
+            const title = dynResultsContainer.querySelector('h2');
+            if (title) setText(title, t('score.finalTitle'));
+            const totalStrong = dynResultsContainer.querySelector('div p:last-child strong');
+            if (totalStrong) {
+                const m2 = (totalStrong.textContent || dynResultsContainer.querySelector('div p:last-child').textContent || '').match(/(\d+)/);
+                const total = m2 ? m2[1] : '';
+                setText(totalStrong, `${t('score.label.total')}: ${total} ${t('score.units.points')}`);
+            }
+        }
+    }
     setText(document.querySelector('#results > .button'), t('results.exit'));
 
     // Refresh dynamic lists using current language
@@ -582,6 +636,72 @@ function applyLanguage(lang) {
                     setText(p, t('reject.text'));
                     setText(a, t('reject.back'));
                 }
+            }
+        }
+    } catch (e) {}
+
+    // Game page: front/game.php
+    try {
+        const path2 = (window.location && window.location.pathname) || '';
+        const isGame = /game\.php$/i.test(path2);
+        if (isGame) {
+            const info = document.querySelector('.game-info');
+            if (info) {
+                setText(info.querySelector('h2'), t('game.info.h2'));
+                const stats = info.querySelectorAll('.game-stat strong');
+                if (stats && stats.length >= 2) {
+                    setText(stats[0], t('game.round') + ':');
+                    setText(stats[1], t('game.turn') + ':');
+                }
+                const currentLabel = info.querySelector('.game-player strong');
+                if (currentLabel) {
+                    setText(currentLabel, t('game.currentPlayer') + ':');
+                }
+            }
+            const finishBtn = document.getElementById('finish-turn-btn');
+            if (finishBtn) setText(finishBtn, t('game.finishTurn'));
+            const backBtn = document.querySelector('.game-content a.button[href="index.php"]');
+            if (backBtn) setText(backBtn, t('common.backHome'));
+            const resultsTitle = document.querySelector('.game-content .rules-section.results-text h2');
+            if (resultsTitle) setText(resultsTitle, t('game.results.h2'));
+
+            // Localize results list items if present (8 items expected)
+            const playerBlocks = document.querySelectorAll('.game-content .results-section.results-text');
+            if (playerBlocks && playerBlocks.length) {
+                playerBlocks.forEach(function(block){
+                    // Winner label inside H2
+                    const winnerSpan = block.querySelector('h2 span');
+                    if (winnerSpan) {
+                        winnerSpan.textContent = (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'WINNER' : 'GANADOR';
+                    }
+
+                    const lis = block.querySelectorAll('li');
+                    if (lis && lis.length >= 8) {
+                        const keys = [
+                            'score.label.equality',
+                            'score.label.three',
+                            'score.label.love',
+                            'score.label.king',
+                            'score.label.diversity',
+                            'score.label.one',
+                            'score.label.river',
+                            'score.label.trexBonus'
+                        ];
+                        lis.forEach(function(li, idx){
+                            if (idx < keys.length) {
+                                const m = (li.textContent || '').match(/(\d+)/);
+                                const pts = m ? m[1] : '';
+                                setHTML(li, `<b>${t(keys[idx])}:</b> ${pts} ${t('score.units.points')}`);
+                            }
+                        });
+                    }
+                    const totalStrong = block.querySelector('p strong');
+                    if (totalStrong) {
+                        const m2 = (totalStrong.textContent || '').match(/(\d+)/);
+                        const total = m2 ? m2[1] : '';
+                        setText(totalStrong, `${t('score.label.total')}: ${total} ${t('score.units.points')}`);
+                    }
+                });
             }
         }
     } catch (e) {}
