@@ -289,15 +289,7 @@ $userRole = strtolower(trim($sessionUser['role'] ?? 'player'));
             <!--Section Results-->
             <section id="results" class="section screen">
                 <div class="results-section results-text">
-                    <h2>Puntos</h2>
-                    <li><b>El Bosque de la Semejanza:</b> 2-4-8-12-18-24 puntos </li>
-                    <li><b>El Trío Frondoso:</b> llena = 7 puntos</li>
-                    <li><b>La Pradera del Amor:</b> 5 puntos x pareja</li>
-                    <li><b>El Rey de la Selva:</b> tienes más dino de esta especie que otros = 7 puntos</li>
-                    <li><b>El Prado de la Diferencia:</b> 1-2-6-10-15-21 puntos</li>
-                    <li><b>La Isla Solitaria:</b> un dino único en tu parque = 7 puntos</li>
-                    <li><b>El Río:</b> 1 punto x dino</li>
-                    <li><b>Bonus T-Rex:</b> 1 punto x recinto</li>
+                    <!-- Заполняется динамически через finishGame() -->
                 </div>
                 <button class="button" onclick="showScreen('home')">Salir</button>
             </section>
@@ -362,7 +354,7 @@ $userRole = strtolower(trim($sessionUser['role'] ?? 'player'));
                         <h2 class="tracking-section-h2">Juegos Guardados</h2>
                         
                         <div class="saved-games-container">
-                            <p style="color: white; text-align: center; padding: 50px;">
+                            <p style="color: black; text-align: center; padding: 50px;">
                                 Funcionalidad en desarrollo.<br>
                                 Pronto podrás guardar y cargar tus partidas.
                             </p>
@@ -424,23 +416,23 @@ $userRole = strtolower(trim($sessionUser['role'] ?? 'player'));
                             
                             <?php if ($userRole === 'admin') { ?>
                                 <div class="admin-row">
-                                <div class="rules-section admin-card">
-                                    <h3>Administración de usuarios</h3>
-                                    <!-- Formulario de admin para usuarios de BD -->
-                                    <form id="admin-create-user" onsubmit="return false;" style="margin-bottom: 10px;">
-                                        <input type="text" name="name" placeholder="Nombre" required>
-                                        <input type="date" name="birthday" placeholder="Fecha de Nacimiento">
-                                        <input type="email" name="email" placeholder="Email" required>
-                                        <input type="password" name="password" placeholder="Password" required>
-                                        <button class="button" onclick="adminCreateUser()">Crear</button>
-                                    </form>
-                                    <div id="admin-users-list">Cargando usuarios...</div>
-                                </div>
-                                <div class="rules-section admin-card">
-                                    <h3>Administración de partidas</h3>
-                                    <!-- Formulario de admin para partidas de BD -->
-                                    <div id="admin-games-list">Cargando partidas...</div>
-                                </div>
+                                    <div class="rules-section admin-card">
+                                        <h3>Administración de usuarios</h3>
+                                        <!-- Formulario de admin para usuarios de BD -->
+                                        <form id="admin-create-user" onsubmit="return false;" style="margin-bottom: 10px;">
+                                            <input type="text" name="name" placeholder="Nombre" required>
+                                            <input type="date" name="birthday" placeholder="Fecha de Nacimiento">
+                                            <input type="email" name="email" placeholder="Email" required>
+                                            <input type="password" name="password" placeholder="Password" required>
+                                            <button class="button" onclick="adminCreateUser()">Crear</button>
+                                        </form>
+                                        <div id="admin-users-list">Cargando usuarios...</div>
+                                    </div>
+                                    <!-- <div class="rules-section admin-card"> -->
+                                    <!-- <h3>Administración de partidas</h3> -->
+                                        <!-- Formulario de admin para partidas de BD -->
+                                    <!-- <div id="admin-games-list">Cargando partidas...</div> -->
+                                    <!--</div>-->
                                 </div>
                                 <a class="button admin-logout" href="../back/logout.php">Cerrar sessión</a>
                             <?php } ?>

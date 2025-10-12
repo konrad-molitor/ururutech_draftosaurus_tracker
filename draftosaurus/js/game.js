@@ -1,4 +1,4 @@
-// Juego Digital - Lógica del modo de juego (extraída de front/game.php)
+// Juego Digital - Lógica del modo de juego
 
 // Dado (1..6)
 const getDado = () => {
@@ -197,7 +197,7 @@ function mapDropZoneToFieldKey(dropZone) {
     return null;
 }
 
-// Validación adicional según el dado: bosque/llanura/cafetería/baños/recinto vacío/T-Rex
+// Validación adicional según el dado
 function isAllowedByDice(dropZone) {
     if (!window.gameState || !dropZone) return true;
     const dice = window.gameState.dado;
@@ -451,6 +451,29 @@ function calculatePlayerScore(player, allPlayers) {
     };
 }
 
+function renderPlayerResult(player, score, isWinner) {
+    const winnerBadge = isWinner 
+        ? `<div class="winner-badge" style="color: darkgoldenrod; font-weight: 700; font-size: 1.1em; text-align: center; margin: 2px 0 6px;">${t('common.winner') || 'WINNER'}</div>` 
+        : '';
+    
+    return `
+        <div class="results-section results-text" style="margin-top: 10px; ${isWinner ? 'border-color: gold;' : ''}">
+            <h2 style="color: black; text-shadow: none; text-align: center;">${player.name} (${player.email})</h2>
+            ${winnerBadge}
+            <li><b>El Bosque de la Semejanza:</b> ${score.equalityPoints} puntos</li>
+            <li><b>El Trío Frondoso:</b> ${score.threePoints} puntos</li>
+            <li><b>La Pradera del Amor:</b> ${score.lovePoints} puntos</li>
+            <li><b>El Rey de la Selva:</b> ${score.kingPoints} puntos</li>
+            <li><b>El Prado de la Diferencia:</b> ${score.diversityPoints} puntos</li>
+            <li><b>La Isla Solitaria:</b> ${score.onePoints} puntos</li>
+            <li><b>El Río:</b> ${score.riverPoints} puntos</li>
+            <li><b>Bonus T-Rex:</b> ${score.trexBonusPoints} puntos</li>
+            <hr style="margin: 10px 0; border: 1px solid #666;">
+            <p style="font-size: 1.1em; text-align: center;"><strong>TOTAL: ${score.total} puntos</strong></p>
+        </div>
+    `;
+}
+
 function finishGameAndScore() {
     if (!window.gameState || !Array.isArray(window.gameState.jugadores)) return;
     console.log('Juego finalizado. Calculando puntuaciones...');
@@ -466,7 +489,39 @@ function finishGameAndScore() {
         console.log(`Jugador: ${player.name} (${player.email}) TOTAL=${score.total} ${winnerMark}`);
     });
 
-    // Mostrar resultados en la página (eliminar elementos de juego y mostrar resumen)
+	// Persistir resultados en BD
+	try {
+		const payload = {
+			modo: (window.gameState && window.gameState.modo) ? window.gameState.modo : 'verano',
+			players: results.map(r => ({
+				id: r.player.id,
+				name: r.player.name,
+				email: r.player.email,
+				total: r.score.total,
+				winner: r.score.total === maxTotal
+			}))
+		};
+		// Guardar payload
+		window._lastGameResultsPayload = payload;
+		window._saveResultsSent = false;
+		console.log('save_game_results: sending', payload);
+		fetch('../back/save_game_results.php', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify(payload),
+			credentials: 'same-origin'
+		}).then(function(r){ return r.json(); }).then(function(j){
+			console.log('save_game_results response', j);
+			if (j && j.success) {
+				window._saveResultsSent = true;
+				window._savedGameId = j.game_id;
+			} else {
+				console.warn('No se pudo guardar resultados', j);
+			}
+		}).catch(function(err){ console.warn('save_game_results error', err); });
+	} catch (e) { console.warn('save_game_results exception', e); }
+
+    // Mostrar resultados en la página
     const gameContent = document.querySelector('.game-content');
     if (gameContent) {
         gameContent.innerHTML = '';
@@ -478,20 +533,18 @@ function finishGameAndScore() {
         let html = '<h2 style="color:black; text-shadow:none; text-align:center;">Resultados finales</h2>';
         html += sorted.map(({ player, score }) => {
             const isWinner = score.total === winnerTotal;
-            return `
-                <div class=\"results-section results-text\" style=\"margin-top: 10px; ${isWinner ? 'border-color: gold;' : ''}\">\n                    <h2 style=\"color: black; text-shadow: none; text-align: center;\">${player.name} (${player.email}) ${isWinner ? '<span style=\\\"color: goldenrod;\\\">WINNER</span>' : ''}</h2>\n                    <li><b>El Bosque de la Semejanza:</b> ${score.equalityPoints} puntos</li>\n                    <li><b>El Trío Frondoso:</b> ${score.threePoints} puntos</li>\n                    <li><b>La Pradera del Amor:</b> ${score.lovePoints} puntos</li>\n                    <li><b>El Rey de la Selva:</b> ${score.kingPoints} puntos</li>\n                    <li><b>El Prado de la Diferencia:</b> ${score.diversityPoints} puntos</li>\n                    <li><b>La Isla Solitaria:</b> ${score.onePoints} puntos</li>\n                    <li><b>El Río:</b> ${score.riverPoints} puntos</li>\n                    <li><b>Bonus T-Rex:</b> ${score.trexBonusPoints} puntos</li>\n                    <hr style=\"margin: 10px 0; border: 1px solid #666;\">\n                    <p style=\"font-size: 1.1em; text-align: center;\"><strong>TOTAL: ${score.total} puntos</strong></p>\n                </div>
-            `;
+            return renderPlayerResult(player, score, isWinner);
         }).join('');
         wrapper.innerHTML = html;
         gameContent.appendChild(wrapper);
 
-        const backBtn = document.createElement('a');
-        backBtn.href = 'index.php';
-        backBtn.className = 'button';
-        backBtn.textContent = 'Volver al inicio';
-        backBtn.style.display = 'block';
-        backBtn.style.margin = '10px auto';
-        gameContent.appendChild(backBtn);
+		const backBtn = document.createElement('a');
+		backBtn.href = 'index.php';
+		backBtn.className = 'button';
+		backBtn.textContent = 'Volver al inicio';
+		backBtn.style.display = 'block';
+		backBtn.style.margin = '10px auto';
+		gameContent.appendChild(backBtn);
     }
 }
 
@@ -513,10 +566,6 @@ function finishTurn() {
     if (!gs) return;
     const currentIndex = gs.jugadorActual - 1;
     const jugador = gs.jugadores[currentIndex];
-    if (!jugador || !jugador.didMove) {
-        alert('Debes colocar un dinosaurio antes de finalizar el turno');
-        return;
-    }
 
     // Confirmar jugada y marcar finalizado
     jugador.status = 'finished';
