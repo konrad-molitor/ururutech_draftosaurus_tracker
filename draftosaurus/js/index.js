@@ -231,7 +231,6 @@ function dropHandler(ev) {
                 
             } else {
                 // При перемещении между полями также проверяем правила / Al mover entre campos también verificamos reglas
-                // Временно удаляем элемент для корректной проверки / Temporalmente removemos el elemento para verificación correcta
                 const currentParent = draggedElement.parentNode;
                 draggedElement.remove();
                 
@@ -469,7 +468,7 @@ function calculateOnePoints() {
         '.field-love',
         '.field-king',
         '.field-diversity',
-        '.table-center' // река / río
+        '.table-center' // río
         // field-one не проверяем, так как мы уже знаем что там один динозавр / field-one no se verifica ya que sabemos que hay un dinosaurio
     ];
     
@@ -495,7 +494,7 @@ function calculateRiverPoints() {
     const riverZone = document.querySelector('.table-center');
     const dinosInZone = riverZone.querySelectorAll('.dino').length;
     
-    // 1 очко за каждого динозавра в реке / 1 punto por cada dinosaurio en el río
+    // 1 punto por cada dinosaurio en el río
     return dinosInZone;
 }
 
@@ -508,7 +507,7 @@ function calculateTRexBonusPoints() {
         '.field-king',
         '.field-diversity',
         '.field-one',
-        '.table-center' // река / río
+        '.table-center' // río
     ];
     
     let bonusPoints = 0;
@@ -647,7 +646,7 @@ function changeSlide(direction) {
 }
 
 function currentSlide(index) {
-    currentSlideIndex = index - 1; // Индекс начинается с 0 / El índice comienza en 0
+    currentSlideIndex = index - 1; // El índice comienza en 0
     showSlide(currentSlideIndex);
 }
 
@@ -667,7 +666,7 @@ function handleCarouselKeyboard(event) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM Content Loaded'); // Отладка / Debug
+    console.log('DOM Content Loaded'); // Debug
     
     // Проверяем состояние всех секций при загрузке / Verificamos el estado de todas las secciones al cargar
     document.querySelectorAll('.screen').forEach(screen => {
@@ -706,6 +705,112 @@ document.addEventListener('DOMContentLoaded', () => {
         applyLanguage(savedLang);
     } catch (e) {}
 });
+
+    // Cargar resultados del usuario en la sección de perfil (con i18n)
+    document.addEventListener('DOMContentLoaded', () => {
+        try {
+            const container = document.getElementById('misResultados');
+            if (!container) return;
+
+            // Funciones auxiliares para render con localización
+            function translateMode(m) {
+                const mm = (m || '').toLowerCase();
+                if (mm === 'verano') return t('newGame.summer') || 'Verano';
+                if (mm === 'invierno') return t('newGame.winter') || 'Invierno';
+                return m || '';
+            }
+
+            window.renderUserResults = function(arr) {
+                const list = Array.isArray(arr) ? arr : [];
+                if (list.length === 0) { container.textContent = t('account.results.empty') || 'No hay resultados'; return; }
+                const ul = document.createElement('ul');
+                ul.style.listStyle = 'none';
+                ul.style.paddingLeft = '0';
+                list.forEach((res, idx) => {
+                    const li = document.createElement('li');
+                    li.style.marginBottom = '6px';
+                    const date = res.created_at ? new Date(res.created_at).toLocaleString() : '';
+                    const modo = translateMode(res.modo || '');
+                    const pts = typeof res.total_points === 'number' ? res.total_points : parseInt(res.total_points || 0, 10);
+                    const ptsLabel = t('score.units.points') || 'puntos';
+                    // В строке сводки не ставим метку WINNER, метка будет рядом с именем в списке игроков
+                    li.textContent = `${date} — ${modo}: ${pts} ${ptsLabel}`;
+
+                    // Список игроков (я + соперники) с меткой победителя рядом с именем
+                    const opp = Array.isArray(res.opponents) ? res.opponents : [];
+                    const oppPoints = opp.map(o => (typeof o.opponent_points === 'number') ? o.opponent_points : parseInt(o.opponent_points || 0, 10));
+                    const maxPoints = Math.max(pts, ...(oppPoints.length ? oppPoints : [pts]));
+
+                    const playersList = document.createElement('ul');
+                    playersList.style.listStyle = 'disc';
+                    playersList.style.margin = '4px 0 0 18px';
+
+                    // Текущий пользователь
+                    const selfItem = document.createElement('li');
+                    const nameInput = document.querySelector('#account .profile #name');
+                    const emailInput = document.querySelector('#account .profile #email');
+                    const selfName = nameInput ? (nameInput.value || '') : '';
+                    const selfEmail = emailInput ? (emailInput.value || '') : '';
+                    const winnerText = t('common.winner') || 'GANADOR';
+                    const selfIsWinner = pts === maxPoints;
+                    const selfNameText = selfName ? `${selfName}${selfEmail ? ' ('+selfEmail+')' : ''}` : (selfEmail || '');
+                    // Текстовая часть
+                    selfItem.textContent = `${selfNameText}: ${pts} ${ptsLabel}`;
+                    // Метка победителя как золотой span
+                    if (selfIsWinner) {
+                        const span = document.createElement('span');
+                        span.textContent = ` (${winnerText})`;
+                        span.style.color = 'darkgoldenrod';
+                        selfItem.appendChild(span);
+                    }
+                    playersList.appendChild(selfItem);
+
+                    // Соперники
+                    opp.forEach(o => {
+                        const oi = document.createElement('li');
+                        const oname = o.opponent_name || '';
+                        const oemail = o.opponent_email ? ` (${o.opponent_email})` : '';
+                        const opoints = (typeof o.opponent_points === 'number') ? o.opponent_points : parseInt(o.opponent_points || 0, 10);
+                        const oIsWinner = opoints === maxPoints;
+                        // Текстовая часть
+                        oi.textContent = `${oname}${oemail}: ${opoints} ${ptsLabel}`;
+                        // Метка победителя как золотой span
+                        if (oIsWinner) {
+                            const span = document.createElement('span');
+                            span.textContent = ` (${winnerText})`;
+                            span.style.color = 'darkgoldenrod';
+                            oi.appendChild(span);
+                        }
+                        playersList.appendChild(oi);
+                    });
+
+                    li.appendChild(playersList);
+                    ul.appendChild(li);
+
+                    // Separador entre partidas, кроме последней
+                    if (idx < list.length - 1) {
+                        const hr = document.createElement('hr');
+                        hr.style.margin = '8px 0';
+                        hr.style.border = '0';
+                        hr.style.borderTop = '2px solid black';
+                        ul.appendChild(hr);
+                    }
+                });
+                container.innerHTML = '';
+                container.appendChild(ul);
+            };
+
+            fetch('../back/user_results.php', { credentials: 'same-origin' })
+                .then(r => r.json())
+                .then(j => {
+                    if (!j || !j.success) { container.textContent = t('common.error') || 'Error'; return; }
+                    const arr = Array.isArray(j.results) ? j.results : [];
+                    window._userResultsCache = arr;
+                    window.renderUserResults(arr);
+                })
+                .catch(() => { container.textContent = t('common.networkError') || 'Error de red'; });
+        } catch (e) {}
+    });
 
 // Новые функции для управления игроками / Nuevas funciones para gestión de jugadores
 

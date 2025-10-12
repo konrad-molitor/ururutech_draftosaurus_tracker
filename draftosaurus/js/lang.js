@@ -12,6 +12,7 @@ const i18n = {
         'common.cancel': 'Cancelar',
         'common.error': 'Error',
         'common.networkError': 'Error de red',
+        'common.winner': 'GANADOR',
 
         // Rules
         'rules.welcome.h2': '¡Bienvenido!',
@@ -57,15 +58,6 @@ const i18n = {
         'play.exit': 'Salir',
 
         // Results
-        'results.title': 'Puntos',
-        'results.equality': '<b>El Bosque de la Semejanza:</b> 2-4-8-12-18-24 puntos',
-        'results.three': '<b>El Trío Frondoso:</b> llena = 7 puntos',
-        'results.love': '<b>La Pradera del Amor:</b> 5 puntos x pareja',
-        'results.king': '<b>El Rey de la Selva:</b> tienes más dino de esta especie que otros = 7 puntos',
-        'results.diversity': '<b>El Prado de la Diferencia:</b> 1-2-6-10-15-21 puntos',
-        'results.one': '<b>La Isla Solitaria:</b> un dino único en tu parque = 7 puntos',
-        'results.river': '<b>El Río:</b> 1 punto x dino',
-        'results.trex': '<b>Bonus T-Rex:</b> 1 punto x recinto',
         'results.exit': 'Salir',
 
         // New Game
@@ -209,6 +201,7 @@ const i18n = {
         'common.cancel': 'Cancel',
         'common.error': 'Error',
         'common.networkError': 'Network error',
+        'common.winner': 'WINNER',
 
         // Rules
         'rules.welcome.h2': 'Welcome!',
@@ -254,15 +247,6 @@ const i18n = {
         'play.exit': 'Exit',
 
         // Results
-        'results.title': 'Points',
-        'results.equality': '<b>Forest of Similarity:</b> 2-4-8-12-18-24 points',
-        'results.three': '<b>Leafy Trio:</b> full = 7 points',
-        'results.love': '<b>Plain of Love:</b> 5 points per pair',
-        'results.king': '<b>King of the Jungle:</b> you have more of this species than others = 7 points',
-        'results.diversity': '<b>Meadow of Difference:</b> 1-2-6-10-15-21 points',
-        'results.one': '<b>Lonely Island:</b> a unique dino in your park = 7 points',
-        'results.river': '<b>River:</b> 1 point per dino',
-        'results.trex': '<b>T-Rex Bonus:</b> 1 point per enclosure',
         'results.exit': 'Exit',
 
         // New Game
@@ -567,19 +551,7 @@ function applyLanguage(lang) {
     setText(document.querySelector('#saved-game > .button'), t('saved.back'));
 
     // Results section
-    setText(document.querySelector('#results h2'), t('results.title'));
-    const resultsLis = document.querySelectorAll('#results .results-section li');
-    if (resultsLis && resultsLis.length >= 8) {
-        setHTML(resultsLis[0], t('results.equality'));
-        setHTML(resultsLis[1], t('results.three'));
-        setHTML(resultsLis[2], t('results.love'));
-        setHTML(resultsLis[3], t('results.king'));
-        setHTML(resultsLis[4], t('results.diversity'));
-        setHTML(resultsLis[5], t('results.one'));
-        setHTML(resultsLis[6], t('results.river'));
-        setHTML(resultsLis[7], t('results.trex'));
-    }
-    // If dynamic results (p rows) were rendered, localize them too
+    // Dynamic results (p rows) localization
     const dynResultsContainer = document.querySelector('#results .results-section');
     if (dynResultsContainer) {
         const pRows = dynResultsContainer.querySelectorAll('div > p');
@@ -670,9 +642,13 @@ function applyLanguage(lang) {
             if (playerBlocks && playerBlocks.length) {
                 playerBlocks.forEach(function(block){
                     // Winner label inside H2
-                    const winnerSpan = block.querySelector('h2 span');
-                    if (winnerSpan) {
-                        winnerSpan.textContent = (typeof currentLang !== 'undefined' && currentLang === 'en') ? 'WINNER' : 'GANADOR';
+                    const winnerDiv = block.querySelector('.winner-badge');
+                    if (winnerDiv) {
+                        winnerDiv.textContent = t('common.winner');
+                        winnerDiv.style.color = 'darkgoldenrod';
+                        winnerDiv.style.fontWeight = '700';
+                        winnerDiv.style.fontSize = '1.1em';
+                        winnerDiv.style.textAlign = 'center';
                     }
 
                     const lis = block.querySelectorAll('li');
@@ -742,6 +718,12 @@ function applyLanguage(lang) {
         if (misResultados && misResultados.children.length === 0) {
             misResultados.textContent = t('account.results.empty');
         }
+        // Re-render resultados ya cargados con el idioma actual
+        try {
+            if (typeof window.renderUserResults === 'function' && Array.isArray(window._userResultsCache)) {
+                window.renderUserResults(window._userResultsCache);
+            }
+        } catch (e) {}
     }
 
     // Admin area
