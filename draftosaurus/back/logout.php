@@ -1,9 +1,14 @@
 <?php
+// Eliminar cookies caducadas
+setcookie("user", "", time() - 3600, "/");
+setcookie("role", "", time() - 3600, "/");
 
-use App\Http\Request;
+// Cerrar sesión
+session_start();
+$_SESSION = [];
+session_unset();
+session_destroy();
 
-$kernel = require __DIR__ . '/../draftosaurus-mvc/bootstrap.php';
-
-$request = Request::fromGlobals()->withPath('/back/logout.php');
-$response = $kernel->handle($request);
-$response->send();
+// Redirigir a la página principal
+header("Location: ../front/index.php");
+exit();
