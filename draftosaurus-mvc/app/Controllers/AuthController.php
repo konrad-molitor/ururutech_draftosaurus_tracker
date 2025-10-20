@@ -37,7 +37,7 @@ class AuthController
 
             $response = $request->expectsJson()
                 ? new JsonResponse(['success' => true, 'user' => $payload])
-                : RedirectResponse::to('/front/index.php?action=profile');
+                : RedirectResponse::to('/account');
 
             $expiry = (new DateTimeImmutable('+30 days'))->getTimestamp();
             $response->cookie('user', $payload['email'], $expiry);
@@ -50,13 +50,13 @@ class AuthController
             return new JsonResponse(['success' => false, 'message' => 'Credenciales inválidas'], 401);
         }
 
-        return RedirectResponse::to('/front/rechazo.php');
+        return RedirectResponse::to('/rejection');
     }
 
     public function logout(Request $request): Response
     {
         $this->session->invalidate();
-        $response = RedirectResponse::to('/front/index.php');
+        $response = RedirectResponse::to('/');
         $expiry = time() - 3600;
         $response->cookie('user', '', $expiry);
         $response->cookie('role', '', $expiry);
@@ -74,7 +74,7 @@ class AuthController
             if ($request->expectsJson()) {
                 return new JsonResponse(['success' => false, 'message' => 'Campos obligatorios faltan'], 422);
             }
-            return RedirectResponse::to('/front/rechazo.php');
+            return RedirectResponse::to('/rejection');
         }
 
         $existing = $this->users->findByEmail($email);
@@ -82,7 +82,7 @@ class AuthController
             if ($request->expectsJson()) {
                 return new JsonResponse(['success' => false, 'message' => 'Email ya registrado'], 409);
             }
-            return RedirectResponse::to('/front/rechazo.php');
+            return RedirectResponse::to('/rejection');
         }
 
         $created = $this->users->create([
@@ -98,8 +98,8 @@ class AuthController
         }
 
         return $created
-            ? RedirectResponse::to('/front/confirmacion.php')
-            : RedirectResponse::to('/front/rechazo.php');
+            ? RedirectResponse::to('/confirmation')
+            : RedirectResponse::to('/rejection');
     }
 
     public function checkUser(Request $request): Response

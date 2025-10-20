@@ -1,0 +1,49 @@
+# Binary Asset Copy Map
+
+Copy the legacy Draftosaurus assets into the MVC public tree before running the UI:
+
+cp draftosaurus/assets/icons/bosque.png draftosaurus-mvc/public/assets/icons/bosque.png
+cp draftosaurus/assets/icons/bronto.png draftosaurus-mvc/public/assets/icons/bronto.png
+cp draftosaurus/assets/icons/cafe.png draftosaurus-mvc/public/assets/icons/cafe.png
+cp draftosaurus/assets/icons/iguano.png draftosaurus-mvc/public/assets/icons/iguano.png
+cp draftosaurus/assets/icons/llanura.png draftosaurus-mvc/public/assets/icons/llanura.png
+cp draftosaurus/assets/icons/players-2.png draftosaurus-mvc/public/assets/icons/players-2.png
+cp draftosaurus/assets/icons/players-3.png draftosaurus-mvc/public/assets/icons/players-3.png
+cp draftosaurus/assets/icons/players-4.png draftosaurus-mvc/public/assets/icons/players-4.png
+cp draftosaurus/assets/icons/players-5.png draftosaurus-mvc/public/assets/icons/players-5.png
+cp draftosaurus/assets/icons/spino.png draftosaurus-mvc/public/assets/icons/spino.png
+cp draftosaurus/assets/icons/stego.png draftosaurus-mvc/public/assets/icons/stego.png
+cp draftosaurus/assets/icons/summer-button.png draftosaurus-mvc/public/assets/icons/summer-button.png
+cp draftosaurus/assets/icons/tiran.png draftosaurus-mvc/public/assets/icons/tiran.png
+cp draftosaurus/assets/icons/trex.png draftosaurus-mvc/public/assets/icons/trex.png
+cp draftosaurus/assets/icons/trice.png draftosaurus-mvc/public/assets/icons/trice.png
+cp draftosaurus/assets/icons/vacio.png draftosaurus-mvc/public/assets/icons/vacio.png
+cp draftosaurus/assets/icons/wc.png draftosaurus-mvc/public/assets/icons/wc.png
+cp draftosaurus/assets/icons/winter-button.png draftosaurus-mvc/public/assets/icons/winter-button.png
+cp draftosaurus/assets/img/background.png draftosaurus-mvc/public/assets/img/background.png
+cp draftosaurus/assets/img/campo1.png draftosaurus-mvc/public/assets/img/campo1.png
+cp draftosaurus/assets/img/campo2.png draftosaurus-mvc/public/assets/img/campo2.png
+cp draftosaurus/assets/img/campo3.png draftosaurus-mvc/public/assets/img/campo3.png
+cp draftosaurus/assets/img/campo4.png draftosaurus-mvc/public/assets/img/campo4.png
+cp draftosaurus/assets/img/campo5.png draftosaurus-mvc/public/assets/img/campo5.png
+cp draftosaurus/assets/img/campo6.png draftosaurus-mvc/public/assets/img/campo6.png
+cp draftosaurus/assets/img/rio.png draftosaurus-mvc/public/assets/img/rio.png
+cp draftosaurus/assets/logo/Logo-Draftosaurus.png draftosaurus-mvc/public/assets/logo/Logo-Draftosaurus.png
+cp draftosaurus/assets/logo/english.png draftosaurus-mvc/public/assets/logo/english.png
+cp draftosaurus/assets/logo/spanish.png draftosaurus-mvc/public/assets/logo/spanish.png
+cp draftosaurus/assets/manual/page1.jpg draftosaurus-mvc/public/assets/manual/page1.jpg
+cp draftosaurus/assets/manual/page2.jpg draftosaurus-mvc/public/assets/manual/page2.jpg
+cp draftosaurus/assets/manual/page3.jpg draftosaurus-mvc/public/assets/manual/page3.jpg
+cp draftosaurus/assets/manual/page4.jpg draftosaurus-mvc/public/assets/manual/page4.jpg
+cp draftosaurus/assets/manual/page5.jpg draftosaurus-mvc/public/assets/manual/page5.jpg
+cp draftosaurus/assets/manual/page6.jpg draftosaurus-mvc/public/assets/manual/page6.jpg
+cp draftosaurus/assets/manual/page7.jpg draftosaurus-mvc/public/assets/manual/page7.jpg
+cp draftosaurus/assets/manual/page8.jpg draftosaurus-mvc/public/assets/manual/page8.jpg
+cp draftosaurus/assets/rulebook/page1.png draftosaurus-mvc/public/assets/rulebook/page1.png
+cp draftosaurus/assets/rulebook/page2.png draftosaurus-mvc/public/assets/rulebook/page2.png
+cp draftosaurus/assets/rulebook/page3.png draftosaurus-mvc/public/assets/rulebook/page3.png
+cp draftosaurus/assets/rulebook/page4.png draftosaurus-mvc/public/assets/rulebook/page4.png
+cp draftosaurus/assets/rulebook/page5.png draftosaurus-mvc/public/assets/rulebook/page5.png
+cp draftosaurus/assets/rulebook/page6.png draftosaurus-mvc/public/assets/rulebook/page6.png
+cp draftosaurus/assets/rulebook/page7.png draftosaurus-mvc/public/assets/rulebook/page7.png
+cp draftosaurus/assets/rulebook/page8.png draftosaurus-mvc/public/assets/rulebook/page8.png

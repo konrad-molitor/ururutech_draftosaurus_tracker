@@ -132,4 +132,35 @@ class MysqlUserRepository implements UserRepositoryInterface
         $conn->close();
         return $row ? ($row['role'] ?? null) : null;
     }
+
+    public function findByIds(array $ids): array
+    {
+        $ids = array_values(array_filter(array_map('intval', $ids), fn (int $id) => $id > 0));
+        if ($ids === []) {
+            return [];
+        }
+
+        $conn = $this->connection();
+        $idList = implode(',', $ids);
+        $sql = "SELECT id, name, birthday, email, role FROM USERS WHERE id IN ($idList)";
+        $result = $conn->query($sql);
+
+        $users = [];
+        if ($result) {
+            while ($row = $result->fetch_assoc()) {
+                $users[] = [
+                    'id' => (int) ($row['id'] ?? 0),
+                    'name' => $row['name'] ?? '',
+                    'birthday' => $row['birthday'] ?? '',
+                    'email' => $row['email'] ?? '',
+                    'role' => $row['role'] ?? 'player',
+                ];
+            }
+            $result->free();
+        }
+
+        $conn->close();
+
+        return $users;
+    }
 }

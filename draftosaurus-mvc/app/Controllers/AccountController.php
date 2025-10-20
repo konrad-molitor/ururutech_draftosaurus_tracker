@@ -59,8 +59,8 @@ class AccountController
         }
 
         return $updated
-            ? RedirectResponse::to('/front/index.php')
-            : RedirectResponse::to('/front/rechazo.php');
+            ? RedirectResponse::to('/account')
+            : RedirectResponse::to('/rejection');
     }
 
     public function deleteAccount(Request $request): Response
@@ -74,7 +74,7 @@ class AccountController
         $this->session->invalidate();
         $response = $request->expectsJson()
             ? new JsonResponse(['success' => $deleted])
-            : RedirectResponse::to('/front/index.php');
+            : RedirectResponse::to('/');
         $expiry = time() - 3600;
         $response->cookie('user', '', $expiry);
         $response->cookie('role', '', $expiry);
