@@ -5,6 +5,7 @@ namespace App;
 use App\Controllers\AccountController;
 use App\Controllers\AdminController;
 use App\Controllers\AuthController;
+use App\Controllers\PageController;
 use App\Controllers\GameController;
 use App\Http\Request;
 use App\Http\Response;
@@ -39,6 +40,15 @@ class Kernel
 
     private function registerRoutes(): void
     {
+        $this->router->map('GET', '/', fn (Request $req) => $this->pages()->home($req));
+        $this->router->map('GET', '/rules', fn (Request $req) => $this->pages()->rules($req));
+        $this->router->map('GET', '/account', fn (Request $req) => $this->pages()->account($req));
+        $this->router->map('GET', '/tracking', fn (Request $req) => $this->pages()->tracking($req));
+        $this->router->map('GET', '/play', fn (Request $req) => $this->pages()->play($req));
+        $this->router->map('GET', '/game', fn (Request $req) => $this->pages()->game($req));
+        $this->router->map('GET', '/confirmation', fn (Request $req) => $this->pages()->confirmation($req));
+        $this->router->map('GET', '/rejection', fn (Request $req) => $this->pages()->rejection($req));
+
         $this->router->map('POST', '/auth/login', fn (Request $req) => $this->auth()->login($req));
         $this->router->map('POST', '/back/login.php', fn (Request $req) => $this->auth()->login($req));
 
@@ -102,5 +112,10 @@ class Kernel
     private function game(): GameController
     {
         return new GameController($this->games);
+    }
+
+    private function pages(): PageController
+    {
+        return new PageController($this->users, $this->session);
     }
 }

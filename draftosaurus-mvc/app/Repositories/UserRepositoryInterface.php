@@ -19,4 +19,6 @@ interface UserRepositoryInterface
     public function deleteById(int $id): bool;
 
     public function roleForEmail(string $email): ?string;
+
+    public function findByIds(array $ids): array;
 }

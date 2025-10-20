@@ -1,0 +1,1424 @@
+/* Reset and Basic Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/*responsive*/
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'PT Sans', 'Arial', sans-serif;
+    background-color: #029999;
+    width: 100vw;
+    height: 100vh;
+    background-image: url('../assets/img/background.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    overflow-x: hidden;
+}
+
+/*scroll for container only*/
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    position: relative; 
+    z-index: 1;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly; 
+    align-items: center;
+    width: 100%;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    background-color: rgba(2, 183, 183, 0.3);
+    width: 100%;
+    text-align: right;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Navigation Styling */
+nav {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(2, 183, 183, 0.3);
+    z-index: 1;
+}
+
+.language {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    border-radius: 50%;
+    align-self: center;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.spanish {
+    background-image: url('../assets/logo/spanish.png');
+    width: 50px;
+    height: 50px;
+}
+
+.english {
+    background-image: url('../assets/logo/english.png');
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+
+/* Section Styling */
+.section, .subsection {
+    display: flex;
+}
+
+#home {
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#home {
+    margin-top: 50vh;
+}
+
+#rules, #tracking, #account, #play, #new-game, #saved-game {
+    width: 100vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+#new-game {
+    justify-content: flex-start;
+    padding: 20px 0;
+}
+
+#new-game .button {
+    align-self: center;
+}
+
+#board {
+    width: 100vw;
+    height: calc(100vh - 60px); /* Высота экрана минус высота навигации / Altura de pantalla menos altura de navegación */
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* Распределяем элементы равномерно / Distribuimos elementos uniformemente */
+    overflow-y: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.game-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    flex: 1;
+    justify-content: flex-start;
+    gap: 5px; /* Минимальное расстояние между элементами / Distancia mínima entre elementos */
+}
+
+#board .button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    flex-shrink: 0;
+}
+
+#results {
+    width: 100vw;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.subsection-row {
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: center;
+    display: flex;
+    width: 94vw;
+}
+
+.subsection-column {
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    text-align: center;
+    display: flex;
+    flex: 1;
+    min-width: 320px;
+    max-width: 45%;
+}
+
+.rules-subsection-dark {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+}
+
+.table {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: auto; /* Позволяем таблице определять свою ширину / Permitimos a la tabla determinar su ancho */
+    max-width: 90vw; /* Ограничиваем максимальную ширину / Limitamos el ancho máximo */
+    height: 75vh; /* Фиксированная высота 75% экрана / Altura fija 75% de la pantalla */
+    margin: 0 auto;
+    position: relative;
+    overflow: visible;
+    aspect-ratio: 2552/2544; /* Сохраняем пропорции / Conservamos las proporciones */
+    gap: 0;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+    flex-shrink: 0;
+}
+
+.table-side {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    align-items: stretch;
+}
+
+.table-center {
+    background-image: url('../assets/img/rio.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    flex: 0 0 auto;
+    width: 16%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.field-equality {
+    background-image: url('../assets/img/campo1.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    flex: 1;
+    position: relative;
+}
+
+.field-three {
+    background-image: url('../assets/img/campo2.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    flex: 1;
+    position: relative;
+}
+
+.field-love {
+    background-image: url('../assets/img/campo3.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    flex: 1;
+    position: relative;
+}
+
+.field-king {
+    background-image: url('../assets/img/campo4.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    flex: 1;
+    position: relative;
+}
+
+.field-diversity {
+    background-image: url('../assets/img/campo5.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    flex: 1;
+    position: relative;
+}
+
+.field-one {
+    background-image: url('../assets/img/campo6.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    flex: 1;
+    position: relative;
+}
+
+.summer-table-cover {
+    background-image: url('../assets/img/summertable.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 100%;
+    height: 330px;
+}
+
+.winter-table-cover {
+    background-image: url('../assets/img/wintertable.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    width: 100%;
+    height: 450px;
+}
+
+/*Fonts*/
+
+h1 {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    margin-left: 10px;
+}
+
+h2, h3 {
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.tracking-section-h2 {
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+
+/*Section Inicio*/
+button:hover {
+    background-color: rgba(0, 183, 183, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+.button {
+    width: 40vw;
+    padding: 10px;
+    background-color: rgba(0, 128, 128, 0.6);
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,1);
+    margin-top: 10px;
+}
+
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: flex;
+}
+
+/*Rules-section*/
+
+.welcome {
+color: black;
+text-shadow: none;
+}
+
+.rules-section, .registration, .message, .login, .profile, .result {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  margin-bottom: 25px;
+}
+
+.about {
+    margin-top: 25px;
+    min-width: 298px;
+}
+
+.players-number {
+    padding-bottom: 20px;
+}
+
+.player-icons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.icon-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.icon-img {
+  width: 60px;
+  height: 60px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  background-color: white;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+}
+
+.icon-img-2 {
+    background-image: url('../assets/icons/players-2.png');
+}
+
+.icon-img-3 {
+    background-image: url('../assets/icons/players-3.png');
+}
+
+.icon-img-4 {
+    background-image: url('../assets/icons/players-4.png');
+}
+
+.icon-img-5 {
+    background-image: url('../assets/icons/players-5.png');
+}
+
+.forest {
+    background-image: url('../assets/icons/bosque.png');
+}
+
+.planes {
+    background-image: url('../assets/icons/llanura.png');
+}
+
+.wc {
+    background-image: url('../assets/icons/wc.png');
+}
+
+.cafe {
+    background-image: url('../assets/icons/cafe.png');
+}
+
+.empty {
+    background-image: url('../assets/icons/vacio.png');
+}
+
+.trex {
+    background-image: url('../assets/icons/trex.png');
+}
+
+.icon-wrapper:hover .icon-img {
+  transform: scale(1.1);
+}
+
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  width: 200px;
+  background-color: rgba(0,0,0,0.75);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px;
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: rgba(0,0,0,0.75) transparent transparent transparent;
+}
+
+.icon-wrapper:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+.rules-section, .players-modo-tracking, .results-section, .registration, .message, .login, .profile, .result {
+    border: 6px solid mediumseagreen;
+    border-radius: 15%;
+    color: black;
+    background-color: antiquewhite;
+}
+
+.rules-section h3, .players-modo-tracking h2, .players-modo-tracking h3, .results-section h2, .registration h2, .message h2, .login h2, .profile h2, .result h2 {
+    color: black;
+    text-shadow: none;
+}
+
+/* Стили для секции игры / Estilos para la sección de juego */
+.play-subsection {
+    border: 6px solid mediumseagreen;
+    border-radius: 15%;
+    color: black;
+    background-color: antiquewhite;
+    padding: 30px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 500px;
+}
+
+.play-subsection h2 {
+    color: black;
+    text-shadow: none;
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.play-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.play-options .button {
+    padding: 15px 25px;
+    font-size: 16px;
+}
+
+.text {
+    max-width: 400px;
+    min-width: 298px;
+    text-align: center;
+}
+
+li {
+    max-width: 250px;
+    text-align: left;
+}
+
+.rule {
+    align-self: center;
+}
+
+.players-modo-tracking {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+    min-width: 320px;
+}
+
+.icon-summer-button {
+    background-image: url(../assets/icons/summer-button.png);
+}
+
+.icon-winter-button {
+    background-image: url(../assets/icons/winter-button.png);
+}
+
+/*Dino panel*/
+.dinosaurs-panel {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 100%;
+    max-width: 90vw;
+    padding: 8px;
+    background-color: rgba(0, 0, 0, 0.5);
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+    height: 15vh; /* Фиксированная высота 15% экрана / Altura fija 15% de la pantalla */
+    overflow-y: auto;
+}
+
+.dino {
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    line-height: 80px;
+    cursor: grab;
+    margin: 5px;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.5);
+    user-select: none;
+    background-size: cover;
+    background-position: center;
+    background-color:beige;
+}
+
+
+.tRex {
+    background-image: url('../assets/icons/tiran.png');
+}
+
+.stegosaurus {
+    background-image: url('../assets/icons/stego.png');
+}
+
+.brontosaurus {
+    background-image: url('../assets/icons/bronto.png');
+}
+
+.triceratops {
+    background-image: url('../assets/icons/trice.png');
+}
+
+.iguanodon {
+    background-image: url('../assets/icons/iguano.png');
+}
+
+.spinosaurus {
+    background-image: url('../assets/icons/spino.png');
+}
+
+.results-text {
+    max-width: 400px;
+    min-width: 298px;
+    padding-left: 10px;
+    text-align: center;
+    padding-bottom: 15px;
+}
+
+.results-text li {
+    max-width: 400px;
+}
+
+/* Media Queries*/
+@media (max-width: 768px) {
+    .table {
+        flex-direction: row;
+        max-width: 100%;
+        aspect-ratio: unset;
+        height: auto;
+        min-height: 50vh;
+        padding: 10px;
+    }
+    
+    .table-side {
+        flex-direction: column;
+        flex: 1;
+        min-height: 300px;
+    }
+    
+    .table-center {
+        flex: 0 0 auto;
+        width: 16%;
+        min-height: 300px;
+    }
+    
+    .field-equality,
+    .field-three,
+    .field-love,
+    .field-king,
+    .field-diversity,
+    .field-one {
+        flex: 1;
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .table {
+        min-height: 40vh;
+        padding: 8px;
+    }
+    
+    .table-side {
+        min-height: 240px;
+    }
+    
+    .table-center {
+        width: 16%;
+        min-height: 240px;
+    }
+    
+    .field-equality,
+    .field-three,
+    .field-love,
+    .field-king,
+    .field-diversity,
+    .field-one {
+        min-height: 80px;
+    }
+}
+
+.table-side div,
+.table-center {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+.table-side div + div {
+    margin-top: 0;
+}
+
+.field-equality,
+.field-three,
+.field-love {
+    border-right: none;
+}
+
+.field-king,
+.field-diversity,
+.field-one {
+    border-left: none;
+}
+
+.table-center {
+    border-left: none;
+    border-right: none;
+}
+
+
+.field-equality,
+.field-three,
+.field-love,
+.field-king,
+.field-diversity,
+.field-one {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+
+.table-center {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+
+.field-equality .dino,
+.field-three .dino,
+.field-love .dino,
+.field-king .dino,
+.field-diversity .dino,
+.field-one .dino {
+    position: relative;
+    width: 45px !important;
+    height: 45px !important;
+    line-height: 45px !important;
+    margin: 1px !important;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    border: 2px solid rgba(255,255,255,0.3);
+    flex-shrink: 0;
+    font-size: 10px;
+}
+
+
+.table-center .dino {
+    position: relative;
+    width: 40px !important;
+    height: 40px !important;
+    line-height: 40px !important;
+    margin: 1px !important;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+    border: 2px solid rgba(255,255,255,0.3);
+    flex-shrink: 0;
+    font-size: 9px;
+}
+
+
+.field-equality:hover,
+.field-three:hover,
+.field-love:hover,
+.field-king:hover,
+.field-diversity:hover,
+.field-one:hover,
+.table-center:hover {
+    box-shadow: inset 0 0 10px rgba(255,255,255,0.3);
+    transition: box-shadow 0.2s ease;
+}
+
+/* Manual Carousel Styles */
+.manual-carousel-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    background-color: rgba(0, 128, 128, 0.6);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.manual-title {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.manual-carousel {
+    position: relative;
+    width: 100%;
+    height: 600px;
+    overflow: hidden;
+    border-radius: 10px;
+    background-color: #fff;
+}
+
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carousel-slide.active {
+    opacity: 1;
+}
+
+.manual-page {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 10;
+}
+
+.carousel-btn:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.prev-btn {
+    left: 10px;
+}
+
+.next-btn {
+    right: 10px;
+}
+
+.carousel-indicators {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+    background-color: #fff;
+}
+
+.page-counter {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    z-index: 10;
+}
+
+/* Responsive Design for Manual Carousel */
+@media (max-width: 768px) {
+    .manual-carousel-container {
+        max-width: 95%;
+        padding: 15px;
+    }
+    
+    .manual-carousel {
+        height: 400px;
+    }
+    
+    .manual-title {
+        font-size: 20px;
+    }
+    
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    /* Tablet adaptations for board section */
+    .table {
+        height: 65vh;
+        width: 95vw; /* Используем почти всю ширину экрана / Usamos casi todo el ancho de la pantalla */
+        max-width: none; /* Убираем ограничение max-width / Removemos la limitación max-width */
+        padding: 8px;
+        aspect-ratio: auto; /* Отключаем фиксированные пропорции / Desactivamos las proporciones fijas */
+    }
+    
+    .dinosaurs-panel {
+        height: 20vh; /* Увеличиваем панель динозавров / Aumentamos el panel de dinosaurios */
+        max-width: 95vw;
+        padding: 6px;
+    }
+    
+    .dino {
+        width: 65px;
+        height: 65px;
+        line-height: 65px;
+        margin: 3px;
+    }
+    
+    .game-content {
+        gap: 4px;
+    }
+    
+    /* Увеличиваем минимальные размеры игровых полей на планшетах / Aumentamos los tamaños mínimos de campos de juego en tablets */
+    .table-side div,
+    .table-center {
+        min-height: 80px;
+    }
+    
+    .table-side {
+        min-width: 120px;
+    }
+    
+    .table-center {
+        min-width: 60px;
+    }
+}
+
+/* Medium screens (between mobile and tablet) */
+@media (max-width: 600px) {
+    .table {
+        height: 62vh;
+        width: 96vw;
+        max-width: none;
+        padding: 6px;
+        aspect-ratio: auto;
+    }
+    
+    .dinosaurs-panel {
+        height: 22vh;
+        max-width: 96vw;
+        padding: 5px;
+    }
+    
+    .dino {
+        width: 58px;
+        height: 58px;
+        line-height: 58px;
+        margin: 2px;
+    }
+    
+    .table-side div,
+    .table-center {
+        min-height: 75px;
+    }
+    
+    .table-side {
+        min-width: 110px;
+    }
+    
+    .table-center {
+        min-width: 55px;
+    }
+}
+
+@media (max-width: 480px) {
+    .manual-carousel {
+        height: 300px;
+    }
+    
+    .manual-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+    
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 14px;
+    }
+    
+    .prev-btn {
+        left: 5px;
+    }
+    
+    .next-btn {
+        right: 5px;
+    }
+    
+    .carousel-indicators {
+        bottom: 10px;
+    }
+    
+    .indicator {
+        width: 10px;
+        height: 10px;
+    }
+    
+    /* Mobile adaptations for board section */
+    #board {
+        height: calc(100vh - 50px);
+        padding: 5px;
+    }
+    
+    .table {
+        height: 60vh; /* 60% на мобильных / 60% en móviles */
+        width: 98vw; /* Используем почти всю ширину экрана / Usamos casi todo el ancho de la pantalla */
+        max-width: none; /* Убираем ограничение max-width / Removemos la limitación max-width */
+        padding: 5px;
+        aspect-ratio: auto; /* Отключаем фиксированные пропорции на мобильных / Desactivamos las proporciones fijas en móviles */
+    }
+    
+    .dinosaurs-panel {
+        height: 25vh; /* Увеличиваем панель для удобства на мобильных / Aumentamos el panel para comodidad en móviles */
+        padding: 5px;
+        max-width: 98vw;
+    }
+    
+    .dino {
+        width: 55px;
+        height: 55px;
+        line-height: 55px;
+        margin: 2px;
+    }
+    
+    .game-content {
+        gap: 2px; /* Минимальные расстояния на мобильных / Distancias mínimas en móviles */
+    }
+    
+    /* Увеличиваем минимальные размеры игровых полей на мобильных / Aumentamos los tamaños mínimos de campos de juego en móviles */
+    .table-side div,
+    .table-center {
+        min-height: 70px;
+    }
+    
+    .table-side {
+        min-width: 100px;
+    }
+    
+    .table-center {
+        min-width: 50px;
+    }
+}
+
+/*Styles for user_profile*/
+.account-subsection-row {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.registration, .message, .login, .profile, .result {
+    max-width: 350px;
+}
+
+/* Admin layout */
+.admin-row {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.admin-card {
+    padding: 15px;
+    flex: 1 1 48%;
+    min-width: 320px;
+    max-width: 100%;
+    overflow-x: auto; /* безопасный скролл таблицы */
+}
+
+@media (max-width: 900px) {
+    .admin-card { min-width: 320px; flex: 1 1 100%; }
+}
+
+@media (max-width: 320px) {
+    .admin-card { min-width: 100%; }
+}
+
+/* Внутренности админ-карточек */
+.admin-card .button {
+    width: auto;
+    max-width: 100%;
+}
+
+.admin-card table {
+    width: 100%;
+    table-layout: auto; /* авто-раскладка, чтоб узкие колонки сжимались по содержимому */
+    border-collapse: collapse;
+}
+
+.admin-card th,
+.admin-card td {
+    word-break: break-word;
+    padding: 4px;
+}
+
+/* Сжать колонку ID по содержимому */
+.admin-users-table .col-id {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.admin-users-controls {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.admin-user-search {
+    max-width: 320px;
+    width: 100%;
+    padding: 6px 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.admin-card td input[type="text"],
+.admin-card td input[type="date"],
+.admin-card td input[type="email"],
+.admin-card td input[type="password"] {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+/* Одинаковый размер кнопок в таблице админ-пользователей */
+.admin-users-table .button {
+    width: 120px;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.admin-logout {
+    margin-top: 15px;
+}
+
+.registration, .profile, .result {
+    margin-top: 10px;
+}
+
+.registration button, .login button, .profile button {
+    max-width: 200px;
+}
+
+.registration label, .login label, .profile label, .result label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.registration input, .login input, .profile input, .result input {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.message a, .profile a {
+    max-width: 200px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: rgba(0, 128, 128, 0.6);
+    align-self: center;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    text-decoration: none;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0,0,0,1);
+}
+
+a:hover {
+    background-color: rgba(0, 183, 183, 0.5);
+    transition: background-color 0.3s ease;
+}
+
+.profile a {
+    margin-top: 10px;
+}
+
+/* Styles for New Game Player Management */
+.player-addition {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 2px solid mediumseagreen;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.add-player-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 15px 0;
+    flex-wrap: nowrap;
+}
+
+.add-player-form input[type="email"] {
+    max-width: 300px;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.add-player-form input[type="email"]:focus {
+    outline: none;
+    border-color: mediumseagreen;
+    box-shadow: 0 0 5px rgba(60, 179, 113, 0.3);
+}
+
+.add-player-form .button {
+    flex-shrink: 0;
+    white-space: nowrap;
+    width: auto;
+    margin: 0;
+    padding: 10px 16px;
+    height: auto;
+}
+
+.player-count {
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.players-list {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 2px solid mediumseagreen;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.players-container {
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: white;
+}
+
+.player-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    background-color: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.player-item:hover {
+    background-color: #f0f0f0;
+}
+
+.player-item:last-child {
+    margin-bottom: 0;
+}
+
+.player-email {
+    font-weight: 500;
+    color: #333;
+    flex: 1;
+}
+
+.remove-player-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.2s ease;
+}
+
+.remove-player-btn:hover {
+    background-color: #c82333;
+}
+
+.mode-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.mode-buttons .icon-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.mode-buttons .icon-wrapper:hover {
+    transform: scale(1.05);
+}
+
+.mode-buttons .icon-wrapper div:last-child {
+    color: black;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+/* Responsive design for new game section */
+@media (max-width: 480px) {
+    .add-player-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .add-player-form input[type="email"] {
+        min-width: auto;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    .add-player-form .button {
+        width: 100%;
+        margin-left: 0;
+    }
+    
+    .mode-buttons {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .player-addition, .players-list {
+        padding: 10px;
+    }
+    
+    .players-container {
+        max-height: 200px;
+    }
+    
+    .player-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .remove-player-btn {
+        align-self: flex-end;
+    }
+}
+

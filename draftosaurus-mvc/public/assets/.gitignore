@@ -1,0 +1,8 @@
+# Binary assets are omitted from version control.
+# See FILES.md for instructions on copying the legacy client assets.
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+!.gitkeep

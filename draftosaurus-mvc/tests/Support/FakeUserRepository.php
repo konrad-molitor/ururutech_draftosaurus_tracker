@@ -84,4 +84,28 @@ class FakeUserRepository implements UserRepositoryInterface
         $user = $this->findByEmail($email);
         return $user['role'] ?? null;
     }
+
+    public function findByIds(array $ids): array
+    {
+        $ids = array_values(array_filter(array_map('intval', $ids), fn (int $id) => $id > 0));
+        if ($ids === []) {
+            return [];
+        }
+
+        $byId = [];
+        foreach ($this->users as $user) {
+            if (isset($user['id'])) {
+                $byId[(int) $user['id']] = $user;
+            }
+        }
+
+        $result = [];
+        foreach ($ids as $id) {
+            if (isset($byId[$id])) {
+                $result[] = $byId[$id];
+            }
+        }
+
+        return $result;
+    }
 }
